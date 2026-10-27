@@ -65,6 +65,11 @@ ol.pas li:last-child { border-bottom: 0; }
 ol.pas li::before { content: counter(pas); position: absolute; left: 0; top: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--carte); color: var(--navy); font-size: 14px; font-weight: 600; text-align: center; line-height: 26px; }
 .bouton-ui { display: inline-block; padding: 0 7px; border: 1px solid var(--filet); border-radius: 5px; background: var(--carte); font-size: 14px; font-weight: 500; white-space: nowrap; }
 .adresse { display: inline-block; margin-top: 4px; padding: 6px 10px; background: var(--navy); color: #fff; border-radius: 6px; font-size: 15px; word-break: break-all; }
+.avec-visuel { display: grid; grid-template-columns: 1fr 280px; gap: 28px; align-items: start; }
+.avec-visuel.petit { grid-template-columns: 1fr 300px; }
+figure { margin: 4px 0 14px; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 12px rgba(10, 56, 86, .18); }
+figcaption { margin-top: 8px; color: var(--doux); font-size: 13px; line-height: 1.45; }
 
 /* Cartes d'extension */
 .liste { display: grid; gap: 10px; }
@@ -97,6 +102,8 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
   .ext .ouvrir { grid-column: 2; grid-row: auto; justify-self: start; margin-top: 8px; }
   .ext .reglage { grid-column: 1 / span 2; }
   .outils { grid-template-columns: 1fr; }
+  .avec-visuel, .avec-visuel.petit { grid-template-columns: 1fr; gap: 4px; }
+  figure { max-width: 320px; }
 }
 @media print {
   .progression { position: static; }
@@ -125,19 +132,25 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
 
   <div class="alerte">
     <p><b>Cette page doit être ouverte dans la fenêtre «&nbsp;Formation SEO&nbsp;».</b></p>
-    <p>Regardez l'avatar en haut à droite de Chrome. S'il n'affiche pas ce profil, commencez par l'étape&nbsp;1.</p>
+    <p>Regardez le bouton du profil, en haut à droite de Chrome. S'il n'affiche pas «&nbsp;Formation SEO&nbsp;», commencez par l'étape&nbsp;1.</p>
   </div>
 
   <section id="profil">
     <h2><span class="num">1</span>Créer le profil «&nbsp;Formation SEO&nbsp;»</h2>
     <p class="doux">Une extension peut lire tout ce qui s'affiche dans la fenêtre où elle est installée. Le profil à part la tient éloignée de votre messagerie, de l'intranet et de OneDrive. C'est la consigne de la DSI de HEC.</p>
-    <ol class="pas">
-      <li>Cliquez sur l'avatar, en haut à droite de Chrome, puis sur <span class="bouton-ui">Ajouter un profil Chrome</span>.</li>
-      <li>Choisissez <span class="bouton-ui">Continuer sans compte</span>. Dans ce profil, ne vous connectez ni à Google ni à votre compte HEC.</li>
-      <li>Nommez le profil «&nbsp;Formation SEO&nbsp;» et choisissez une couleur. Cochez <span class="bouton-ui">Créer un raccourci sur le bureau</span>, puis cliquez sur <span class="bouton-ui">Terminé</span>.</li>
-      <li>Une nouvelle fenêtre s'ouvre, dans la couleur choisie. Tapez-y l'adresse de cette page&nbsp;:<br><span class="adresse mono">pribeaucourt.github.io/formation-hec</span></li>
-    </ol>
-    <p class="doux">Le 19 novembre, rouvrez ce profil depuis le raccourci du bureau ou depuis l'avatar.</p>
+    <div class="avec-visuel">
+      <ol class="pas">
+        <li>Cliquez sur le bouton de votre profil, en haut à droite de Chrome, puis sur <span class="bouton-ui">Ajouter un profil Chrome</span>.</li>
+        <li>Choisissez <span class="bouton-ui">Continuer sans compte</span>. Dans ce profil, ne vous connectez ni à Google ni à votre compte HEC.</li>
+        <li>Nommez le profil «&nbsp;Formation SEO&nbsp;» et choisissez une couleur. Cochez <span class="bouton-ui">Créer un raccourci sur le bureau</span>, puis cliquez sur <span class="bouton-ui">Terminé</span>.</li>
+        <li>Une nouvelle fenêtre s'ouvre, dans la couleur choisie. Tapez-y l'adresse de cette page&nbsp;:<br><span class="adresse mono">pribeaucourt.github.io/formation-hec</span></li>
+      </ol>
+      <figure>
+        <img src="img/profil-chrome.png" width="406" height="556" alt="Menu du profil Chrome, ouvert depuis le bouton en haut à droite. La ligne « Ajouter un profil Chrome » est encadrée.">
+        <figcaption>Le bouton du profil affiche votre photo ou le nom de votre profil.</figcaption>
+      </figure>
+    </div>
+    <p class="doux">Le 19 novembre, rouvrez ce profil depuis le raccourci du bureau ou depuis le bouton du profil.</p>
   </section>
 
   <section id="extensions">
@@ -205,7 +218,16 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
 
   <section id="epingler">
     <h2><span class="num">3</span>Épingler les extensions</h2>
-    <p>Cliquez sur l'icône en forme de pièce de puzzle, à droite de la barre d'adresse. Cliquez ensuite sur la punaise à côté de chaque extension&nbsp;: son icône reste visible dans la barre d'outils.</p>
+    <div class="avec-visuel petit">
+      <ol class="pas">
+        <li>Cliquez sur l'icône en forme de pièce de puzzle, en haut à droite, au bout de la barre d'adresse.</li>
+        <li>Cliquez sur la punaise à côté de chaque extension de la formation. Son icône s'affiche alors dans la barre d'outils.</li>
+      </ol>
+      <figure>
+        <img src="img/epingler.png" width="341" height="250" alt="Menu des extensions de Chrome, ouvert depuis l'icône en forme de pièce de puzzle. La punaise d'une extension est encadrée, avec la bulle « Épingler ».">
+        <figcaption>Une punaise bleue barrée signale une extension déjà épinglée.</figcaption>
+      </figure>
+    </div>
   </section>
 
   <section id="sans-installation">
@@ -227,7 +249,7 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
 
   <section id="fin">
     <h2><span class="num">6</span>À la fin de la formation</h2>
-    <p>Supprimez le profil&nbsp;: cliquez sur l'avatar, puis sur <span class="bouton-ui">Gérer les profils Chrome</span>. Sur la carte «&nbsp;Formation SEO&nbsp;», ouvrez le menu à trois points, puis cliquez sur <span class="bouton-ui">Supprimer</span>. Les extensions disparaissent avec lui.</p>
+    <p>Supprimez le profil&nbsp;: cliquez sur le bouton du profil, puis sur <span class="bouton-ui">Gérer les profils Chrome</span>, la dernière ligne du menu de l'étape&nbsp;1. Sur la carte «&nbsp;Formation SEO&nbsp;», ouvrez le menu à trois points, puis cliquez sur <span class="bouton-ui">Supprimer</span>. Les extensions disparaissent avec lui.</p>
   </section>
 
 </main>
