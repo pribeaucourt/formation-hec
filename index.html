@@ -85,6 +85,29 @@ section > p { margin: 0 0 12px; }
 .ext.faite { background: var(--carte); border-color: #C9D6E2; }
 .ext.faite .nom::after { content: "Installée"; margin-left: 8px; padding: 1px 8px; border-radius: 4px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 500; vertical-align: 2px; }
 
+/* Onglets */
+.onglets { display: flex; gap: 8px; margin-top: 22px; }
+.onglets a { padding: 7px 18px; border: 1px solid #3B6385; border-radius: 999px; color: #fff; font-size: 15px; font-weight: 500; text-decoration: none; }
+.onglets a:hover, .onglets a:focus-visible { border-color: #fff; }
+.onglets a[aria-current="page"] { background: #fff; border-color: #fff; color: var(--navy); }
+
+/* Prompts */
+.etape { margin: 30px 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--orange); }
+.prompt { margin-bottom: 12px; padding: 16px; border: 1px solid var(--filet); border-radius: 10px; background: #fff; }
+.prompt .usage { margin: 2px 0 12px; }
+.prompt .usage .bouton-ui { font-size: 13px; }
+.cadre { position: relative; }
+.cadre pre { margin: 0; max-height: 300px; overflow: auto; padding: 14px 16px; padding-right: 96px; border-radius: 8px; background: var(--carte);
+  font-family: "Roboto Mono", ui-monospace, monospace; font-size: 13px; line-height: 1.55; white-space: pre-wrap; word-wrap: break-word; }
+.cadre pre mark, mark.var { padding: 0 2px; border-radius: 3px; background: var(--jaune-pale); color: var(--orange); font-weight: 500; }
+.copier { position: absolute; top: 10px; right: 10px; padding: 6px 12px; border: 0; border-radius: 6px; background: var(--navy); color: #fff;
+  font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+.copier:hover, .copier:focus-visible { background: var(--orange); }
+.prompt details { margin-top: 10px; }
+.prompt summary { cursor: pointer; color: var(--navy); font-size: 14px; font-weight: 500; }
+.prompt details .cadre { margin-top: 10px; }
+.sans-prompt { margin-bottom: 12px; padding: 14px 16px; border-left: 4px solid var(--navy); border-radius: 0 8px 8px 0; background: var(--carte); font-size: 15px; }
+
 footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--filet); color: var(--doux); font-size: 13px; }
 
 @media (max-width: 600px) {
@@ -108,9 +131,15 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
   <div class="wrap">
     <p class="surtitre">Formation SEO/GEO · HEC Paris · 18 et 19 novembre 2026</p>
     <h1>Vos outils pour la formation</h1>
-    <p class="chapo">Les extensions Chrome à installer et les outils en ligne que nous utiliserons.</p>
+    <p class="chapo">Les extensions Chrome à installer, les outils en ligne et les prompts que nous utiliserons.</p>
+    <nav class="onglets" aria-label="Sections de la page">
+      <a href="#outils" data-onglet="outils">Outils</a>
+      <a href="#prompts" data-onglet="prompts">Prompts</a>
+    </nav>
   </div>
 </header>
+
+<div class="panneau" data-panneau="outils">
 
 <div class="progression" aria-live="polite">
   <div class="wrap">
@@ -158,7 +187,7 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
       <div class="ext" data-id="nohnfalgehdinkbmfcjgloifjgbeebfb">
         <input type="checkbox" id="e4">
         <label class="nom" for="e4"><img class="logo" src="img/logos/serp-exporter.png" alt="" width="28" height="28">SERP Exporter<span class="editeur">Empirik</span></label>
-        <p class="usage">Enregistre les 10 premiers résultats d'une recherche Google, avec une capture du haut de chaque page.</p>
+        <p class="usage">Enregistre les 10 premiers résultats d'une recherche Google, avec une capture du haut de chaque page. Son onglet «&nbsp;Comparer&nbsp;» fournit aussi un prompt prêt à l'emploi (voir l'onglet <a href="#prompts">Prompts</a>).</p>
         <a class="ouvrir" href="https://chromewebstore.google.com/detail/nohnfalgehdinkbmfcjgloifjgbeebfb" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
       </div>
       <div class="ext" data-id="cfonkadoaednddfgjmppmlmmnfopdngk">
@@ -241,6 +270,159 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
 
 </main>
 
+</div>
+
+<div class="panneau" data-panneau="prompts">
+<main class="wrap">
+<!-- PROMPTS DEBUT -->
+<section>
+  <h2>Les prompts de la formation</h2>
+  <p>Dans l'ordre de l'atelier 2. Remplacez les éléments <mark class="var">{{entre accolades}}</mark> avant d'envoyer le prompt, puis cliquez sur <span class="bouton-ui">Copier</span>.</p>
+  <div class="alerte"><p><b>Règle HEC&nbsp;: un contenu interne qui n'est pas encore publié ne se soumet qu'à Copilot.</b></p><p>Les résultats de Google sont publics ; votre plan et vos textes en cours de rédaction ne le sont pas.</p></div>
+  <p class="etape">Étape 1 · Analyser la SERP</p>
+<article class="prompt" id="prompt-serp">
+  <p class="nom">Le prompt de SERP Exporter</p>
+  <p class="usage">L'extension le prépare pour vous, déjà rempli avec votre mot-clé et votre page. Sur la page de résultats Google&nbsp;: <span class="bouton-ui">Export SERP</span>, onglet <span class="bouton-ui">Comparer</span>, collez l'URL de votre page, puis <span class="bouton-ui">Comparer mon site au top 10</span>. Le fichier prompt.txt est dans le ZIP téléchargé&nbsp;: envoyez le prompt et le ZIP à votre IA.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-serp">Copier</button><pre id="t-serp">*Contexte*
+
+Tu es expert SEO &amp; UX pour le site <mark>{{votre site}}</mark>.
+Je te fournis un zip contenant, pour chacun des 8 à 10 premiers résultats Google sur le mot-clé « <mark>{{mot-clé}}</mark> » :
+- XX-www_site_com.png : capture "above the fold" uniquement.
+- XX-www_site_com.html : code HTML complet de la page telle que servie lors du crawl.
+
+XX indique la position dans la SERP (1 = mieux classé).
+
+__________
+
+*Objectifs*
+
+J'ai besoin que tu identifies les intentions de la SERP, exprimées en % des résultats. Tu peux t'appuyer sur les types de sites, les balises titles, et le contenu des pages.
+Puis que tu me dises à quelle intention répond <mark>{{votre site}}</mark>.
+
+Puis on va comparer les résultats qui répondent à la même intention que <mark>{{votre site}}</mark> avec <mark>{{votre site}}</mark> :
+- La différence entre <mark>{{votre site}}</mark> et ses concurrents sur les éléments "above the fold" (capture PNG uniquement).
+- Les éléments non-textuels (vidéos, images, comparateurs, etc) utilisés par les concurrents par rapport à ceux exploités par <mark>{{votre site}}</mark> (code HTML)
+- Une analyse QUALITATIVE des thématiques traités par les concurrents par rapport à <mark>{{votre site}}</mark>, et plus particulièrement les concurrents sur la même intention de recherche (code HTML)
+- La longueur des contenus et leur profondeur des concurrents par rapport à <mark>{{votre site}}</mark> (code HTML)
+- Que tu produises un récapitulatif clair de ce qui différencie <mark>{{votre site}}</mark> des concurrents avec la même intention, et de ce qu'il pourrait manquer à <mark>{{votre site}}</mark> en te basant sur cette analyse uniquement.
+
+__________
+
+*Règles méthodologiques obligatoires*
+
+1. Analyse-toi UNIQUEMENT les fichiers PNG &amp; HTML fournis. Aucun appel à la mémoire, à d'autres versions du site ou à des outils externes.
+
+2. Aucune extrapolation. Si un élément n'apparaît pas dans les assets, considère qu'il est absent. Mentionne explicitement les cas "non déterminés" plutôt que d'inférer.
+
+3. Toute statistique ou affirmation doit citer la source directe : "(vu dans PNG)" ou "(vu dans HTML)". Si un doute persiste, signale-le plutôt que de fournir une information incertaine.</pre></div>
+  <details><summary>La partie ajoutée quand Google affiche un AI Overview</summary><div class="cadre"><button class="copier" type="button" data-cible="t-aio">Copier</button><pre id="t-aio">__________
+
+*AI Overview*
+
+Le zip contient aussi :
+- ai-overview.md : la réponse de l'AI Overview affichée par Google sur « <mark>{{mot-clé}}</mark> » et la liste numérotée des sources qu'elle cite. Quand une source est dans le top 10, sa position organique est indiquée : son HTML est le fichier XX-www_site_com.html correspondant.
+- aio-N-www_site_com.html : code HTML complet des sources citées par l'AIO qui ne sont pas dans le top 10, N étant le numéro de la source dans ai-overview.md.
+- aio-N-www_youtube_com.md : fiche des vidéos YouTube citées par l'AIO : titre, chaîne, date de publication, durée, vues, catégorie, mots-clés et description. Le contenu de la vidéo elle-même (image, son, transcription) n'est pas disponible.
+Une source sans fichier n'a pas pu être récupérée, ou est la page de <mark>{{votre site}}</mark> (fichier client-…).
+
+Ces fichiers font partie des assets à analyser (règle 1) ; cite ai-overview.md et les fiches vidéo "(vu dans AIO)". Son en-tête indique si l'AIO est natif (mis en cache, stable) ou asynchrone (généré à la volée) : s'il est asynchrone, ce n'est qu'une version de la réponse parmi d'autres, ne tire pas de conclusion définitive sur les sources citées.
+
+- Indique quelles sources l'AIO cite et ce que chacune apporte à la réponse, en t'appuyant sur leurs fichiers (XX-… pour le top 10, aio-N-… pour les autres).
+- Pour les sources citées hors top 10 : explique ce qui leur vaut d'être citées sans être bien positionnées (angle, format, précision ou fraîcheur de l'information…), en les comparant aux pages du top 10.
+- Vidéos : indique combien de sources de l'AIO sont des vidéos (YouTube ou autre plateforme) et ce qui caractérise celles qui sont citées (chaîne, durée, date, popularité, angle d'après le titre et la description). Puis évalue si <mark>{{votre site}}</mark> est légitime pour publier une ou plusieurs vidéos YouTube sur ce sujet, d'après sa page ; si oui, recommande les sujets, l'angle et le format à privilégier au vu des vidéos déjà citées. Si l'AIO ne cite aucune vidéo, précise-le et tiens-en compte dans ta recommandation.
+- Dis si <mark>{{votre site}}</mark> est cité dans l'AIO. S'il ne l'est pas, explique ce qui distingue les pages citées de celle de <mark>{{votre site}}</mark>.</pre></div></details>
+</article>
+<article class="prompt" id="prompt-format">
+  <p class="nom">Le prompt d'audit du format</p>
+  <p class="usage">Pour savoir quel format de page Google privilégie. À la place de <mark class="var">{{concurrents}}</mark>, collez les URL, les titles et les meta descriptions du top 10&nbsp;: onglet <span class="bouton-ui">Copier</span> de SERP Exporter.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-format">Copier</button><pre id="t-format">Analyse le CONTENU et le FORMAT de ces concurrents et donne-moi dans un tableau URL POSITION FORMAT pour chacun sa position et son format : la contre-opinion collective, le récit personne / interview, le récit extérieur, l’étude de cas, le tutoriel, le guide, la liste, le comparatif, le programme pas à pas, la synthèse scientifique, l’outil en ligne, la rétrospective, enquête + analyse des résultats, manifeste, la définition
+
+<mark>{{concurrents}}</mark>
+
+Mon objectif est de trouver le format de page adéquat pour mon persona et mon offre sur la requête <mark>{{requête}}</mark></pre></div>
+</article>
+  <p class="etape">Étape 2 · Préparer le brief</p>
+  <p class="sans-prompt">Pas de prompt&nbsp;: l'analyse Thot SEO donne les intentions de recherche, les titres des concurrents, les questions et les idées de sujet, et les mots-clés à reprendre. Vous les collez dans les prompts des étapes 3 et 4.</p>
+  <p class="etape">Étape 3 · Faire le plan</p>
+<article class="prompt" id="prompt-plan">
+  <p class="nom">Le prompt pour la création de plan</p>
+  <p class="usage">Il produit un H1, des H2 et des H3, avec 30 % d'angles que les concurrents n'ont pas. Les éléments à coller viennent de Thot SEO.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-plan">Copier</button><pre id="t-plan">Je travaille un <mark>{{type de page}}</mark> sur la requête : <mark>{{requête}}</mark>
+Je souhaite un plan sous framework <mark>{{framework}}</mark> avec H2 et H3, qui démarre par un H1.
+Titres courts et descriptifs, en question si possible.
+Structure logique et progressive.
+Pas de paragraphes.
+Bien adapter le plan au contexte du persona identifié ainsi que le reste du contexte fourni.
+Toujours avoir une valeur ajoutée unique par rapport aux concurrents en apportant 30 % d’angle original POUR le persona identifié. Les 30 % de titres uniques doivent être indiqués avec la mention ANGLE UNIQUE et doivent être répartis dans le plan global, pas juste une section non traitée par la concurrence.
+Tu peux intégrer au choix des idées de valeurs ajoutées mais ne cherche pas à tout intégrer, va juste au plus logique :
+- Astuces perso
+- Etudes propriétaires
+- Retour d’expériences
+- Etudes de Cas
+- Interview de partenaire/experts du secteur pour demander leur avis
+- Outils interactifs
+- Synthèse visuelle
+- Angles prospectifs
+- Parallèles avec d’autres industries
+- Témoignages clients
+
+Voici pour information les éléments traités par mes concurrents, des idées de sujet et les intentions de recherche identifiées sur la SERP :
+<mark>{{concurrents}}</mark>
+<mark>{{idées de sujet}}</mark>
+<mark>{{intentions de recherche}}</mark>
+Voici une liste de termes qu’il faudra inclure à un moment, si cela est pertinent tu peux en intégrer aux titres : <mark>{{mot-clés sans occurrences}}</mark>
+
+Voici mon persona et les consignes de tone of voice : <mark>{{à compléter}}</mark></pre></div>
+</article>
+  <p class="etape">Étape 4 · Rédiger</p>
+<article class="prompt" id="prompt-pratiques">
+  <p class="nom">La consigne de bonnes pratiques de rédaction</p>
+  <p class="usage">À envoyer en premier, dans la même conversation que la rédaction&nbsp;: elle fixe le ton, le style et la mise en forme.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-pratiques">Copier</button><pre id="t-pratiques">Ton : factuel et précis ; langage sympa mais technique quand il le faut et adapté à <mark>{{votre public}}</mark> ; axé sur la performance. Positionnement rassurant et crédible, sans superlatifs, mettant en avant expertise, chiffres clés et bénéfices tangibles
+
+Style d’écriture :
+
+Longueur des phrases : Privilégier les phrases courtes à moyennes (10-20 mots) pour la clarté. Varier les longueurs pour un rythme fluide et naturel.
+
+Formatage : Paragraphes courts (3-5 lignes max) pour favoriser la lecture sur mobile. Utilisation de listes à puces et tableaux pour faciliter la lecture si besoin mais ne pas en abuser. Mots-clés en gras pour souligner les idées essentielles mais maximum 2 par section.
+
+À éviter : Langage sensationnaliste : « révolutionnaire », « miracle », « garanti ». Discours restrictif ou alarmiste : « vous devez absolument », voix passive ou expressions ambiguës et verbes modaux ou pouvant induire en erreur. Utilisation de chiffres et études et brevets pour étayer les propos. Intégration de conseils pratiques basés sur des données vérifiables.
+
+Pour le format faire varier les tailles des sections, inclure des titres mais toujours plus de 4 / 5 paragraphes par section. Pas de camel case dans les titres</pre></div>
+</article>
+<article class="prompt" id="prompt-redaction">
+  <p class="nom">Le prompt de rédaction, section par section</p>
+  <p class="usage">Une section à la fois&nbsp;: l'IA rédige la première partie (H2) qui manque. Relancez-le pour la suivante.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-redaction">Copier</button><pre id="t-redaction">Je cherche à faire un article exhaustif et à jour mais surtout utile à mon persona. Tu ne dois surtout pas t’éloigner de leur préoccupation principale. L’article fera environ <mark>{{nombre de mots}}</mark> mots et est sur : <mark>{{requête}}</mark>
+
+Dans ton développement, tu ne dois pas trop t’éloigner du sujet mais rentrer en profondeur dans les explications scientifiques de chaque concept, on doit revenir au first principle mais sans oublier que l’on parle à des individus qui s’y connaissent.
+
+Respecte tes consignes sur le ton, le style, la cible avec attention.
+
+Pour la rédaction, utilise les mots suivants lorsque cela est pertinent :
+<mark>{{mot-clés sans occurrences}}</mark>
+
+Voici mon contenu actuel, tu dois trouver la première section (h2) non faite et rédiger cette dernière (et uniquement cette dernière) en évitant les incohérences et les redites avec le reste du contenu :
+
+<mark>{{contenu HTML}}</mark></pre></div>
+</article>
+  <p class="etape">Étape 5 · Vérifier</p>
+<article class="prompt" id="prompt-factcheck">
+  <p class="nom">Le prompt de fact-check</p>
+  <p class="usage">Il relève les chiffres et les affirmations discutables, avec une source pour chacun. Avec Copilot&nbsp;: le contenu n'est pas encore publié.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-factcheck">Copier</button><pre id="t-factcheck">Voici mon contenu pour la requête <mark>{{requête}}</mark>
+
+J’ai besoin que tu identifies toutes les allégations, concepts, chiffres ou autres éléments pouvant être sujet à débat et que tu fact checkes ces points un à un.
+
+Le résultat doit être un tableau avec la source et ta conclusion et l’éventuelle correction. Autant que possible privilégie des sources académiques, ou au moins sérieuses et reconnues.
+
+<mark>{{contenu HTML}}</mark></pre></div>
+</article>
+</section>
+<!-- PROMPTS FIN -->
+</main>
+</div>
+
 <footer>
   <div class="wrap">
     Page préparée par Empirik pour la formation SEO/GEO de HEC Paris. Liste des extensions validée par la DSI de HEC Paris en juillet 2026.
@@ -275,6 +457,47 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
     });
   });
   majCompteur();
+})();
+
+(function () {
+  // Onglets : #prompts (ou une ancre à l'intérieur) affiche les prompts, tout le reste affiche les outils
+  var panneaux = Array.prototype.slice.call(document.querySelectorAll("[data-panneau]"));
+  var liens = Array.prototype.slice.call(document.querySelectorAll("[data-onglet]"));
+  function afficher() {
+    // #outils et #prompts ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
+    var ancre = location.hash.slice(1);
+    var cible = ancre ? document.getElementById(ancre) : null;
+    var panneau = cible ? cible.closest("[data-panneau]") : null;
+    var nom = (ancre === "outils" || ancre === "prompts") ? ancre : (panneau ? panneau.getAttribute("data-panneau") : "outils");
+    panneaux.forEach(function (p) { p.hidden = p.getAttribute("data-panneau") !== nom; });
+    liens.forEach(function (a) {
+      if (a.getAttribute("data-onglet") === nom) { a.setAttribute("aria-current", "page"); } else { a.removeAttribute("aria-current"); }
+    });
+    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts" };
+    document.title = titre[nom];
+    // ancre plus précise (#prompt-plan) : le navigateur a défilé avant le masquage de l'autre panneau, on refait le défilement
+    if (cible && !(ancre === "outils" || ancre === "prompts")) { setTimeout(function () { cible.scrollIntoView(); }, 0); }
+  }
+  window.addEventListener("hashchange", afficher);
+  afficher();
+
+  // Boutons « Copier » : le texte brut du prompt, sans la mise en forme
+  Array.prototype.slice.call(document.querySelectorAll(".copier")).forEach(function (b) {
+    b.addEventListener("click", function () {
+      var texte = document.getElementById(b.getAttribute("data-cible")).textContent;
+      function fait() { b.textContent = "Copié"; setTimeout(function () { b.textContent = "Copier"; }, 1800); }
+      function secours() {
+        var zone = document.createElement("textarea");
+        zone.value = texte; zone.setAttribute("readonly", ""); zone.style.position = "fixed"; zone.style.opacity = "0";
+        document.body.appendChild(zone); zone.select();
+        try { document.execCommand("copy"); fait(); } catch (e) {}
+        document.body.removeChild(zone);
+      }
+      try {
+        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(texte).then(fait, secours); } else { secours(); }
+      } catch (e) { secours(); }
+    });
+  });
 })();
 </script>
 </body>
