@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Formation SEO/GEO · Vos outils</title>
+<meta name="description" content="Extensions Chrome et outils à installer pour la formation SEO/GEO de HEC Paris, les 18 et 19 novembre 2026.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A3856'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='%23FCC02D' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A3856;
+  --orange: #E9540D;
+  --jaune: #FCC02D;
+  --carte: #F3F6F9;
+  --texte: #1B2B3A;
+  --doux: #445A6E;
+  --filet: #DDE4EA;
+  --jaune-pale: #FFF6DC;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--texte);
+  font-family: Poppins, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.wrap { max-width: 780px; margin: 0 auto; padding: 0 16px; }
+a { color: var(--navy); }
+code, .mono { font-family: "Roboto Mono", ui-monospace, monospace; font-weight: 500; }
+
+/* En-tête */
+header { background: var(--navy); color: #fff; padding: 40px 0 34px; }
+.surtitre { margin: 0 0 10px; color: var(--jaune); font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.2; font-weight: 600; }
+header p.chapo { margin: 0; color: #C9D6E2; font-size: 17px; }
+
+/* Barre de progression */
+.progression { position: sticky; top: 0; z-index: 5; background: #fff; border-bottom: 1px solid var(--filet); }
+.progression .wrap { display: flex; align-items: center; gap: 16px; padding-top: 12px; padding-bottom: 12px; }
+.progression strong { font-weight: 600; color: var(--navy); white-space: nowrap; font-size: 15px; }
+.jauge { flex: 1; height: 8px; background: var(--carte); border-radius: 4px; overflow: hidden; }
+.jauge span { display: block; height: 100%; width: 0; background: var(--orange); transition: width .25s; }
+
+/* Encadré d'alerte */
+.alerte { margin: 28px 0 8px; padding: 16px 18px; background: var(--jaune-pale); border-left: 4px solid var(--jaune); border-radius: 0 8px 8px 0; }
+.alerte p { margin: 0; }
+.alerte p + p { margin-top: 6px; color: var(--doux); font-size: 15px; }
+
+/* Étapes */
+section { padding: 30px 0 6px; }
+h2 { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; font-size: 22px; line-height: 1.3; font-weight: 600; color: var(--navy); }
+.num { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 16px; }
+h3 { margin: 24px 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--orange); }
+section > p, section > .wrap > p { margin: 0 0 12px; }
+.doux { color: var(--doux); }
+ol.pas { margin: 0 0 14px; padding: 0; list-style: none; counter-reset: pas; }
+ol.pas li { position: relative; padding: 10px 0 10px 40px; border-bottom: 1px solid var(--filet); counter-increment: pas; }
+ol.pas li:last-child { border-bottom: 0; }
+ol.pas li::before { content: counter(pas); position: absolute; left: 0; top: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--carte); color: var(--navy); font-size: 14px; font-weight: 600; text-align: center; line-height: 26px; }
+.bouton-ui { display: inline-block; padding: 0 7px; border: 1px solid var(--filet); border-radius: 5px; background: var(--carte); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.adresse { display: inline-block; margin-top: 4px; padding: 6px 10px; background: var(--navy); color: #fff; border-radius: 6px; font-size: 15px; word-break: break-all; }
+
+/* Cartes d'extension */
+.liste { display: grid; gap: 10px; }
+.ext { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: start; padding: 16px; border: 1px solid var(--filet); border-radius: 10px; background: #fff; transition: background .2s, border-color .2s; }
+.ext input { grid-row: 1 / span 3; width: 22px; height: 22px; margin: 3px 0 0; accent-color: var(--orange); cursor: pointer; }
+.ext .nom { margin: 0; font-weight: 600; font-size: 17px; line-height: 1.35; cursor: pointer; }
+.ext .editeur { display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 4px; background: var(--carte); color: var(--doux); font-size: 12px; font-weight: 500; vertical-align: 2px; }
+.ext .usage { grid-column: 2; margin: 0; color: var(--doux); font-size: 15px; }
+.ext .reglage { grid-column: 2 / span 2; margin: 8px 0 0; padding: 10px 12px; background: var(--jaune-pale); border-radius: 6px; font-size: 14px; }
+.ext .reglage b { display: block; margin-bottom: 2px; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--navy); }
+.ext .ouvrir { grid-column: 3; grid-row: 1 / span 2; align-self: center; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; background: var(--navy); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; }
+.ext .ouvrir:hover, .ext .ouvrir:focus-visible { background: var(--orange); }
+.ext .ouvrir svg { width: 14px; height: 14px; }
+.ext.faite { background: var(--carte); border-color: #C9D6E2; }
+.ext.faite .nom::after { content: "Installée"; margin-left: 8px; padding: 1px 8px; border-radius: 4px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 500; vertical-align: 2px; }
+
+/* Outils sans installation */
+.outils { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 12px; padding: 0; list-style: none; }
+.outils li { padding: 12px 14px; background: var(--carte); border-radius: 8px; font-size: 15px; }
+.outils li b { display: block; font-weight: 600; color: var(--navy); }
+.outils li span { color: var(--doux); }
+.encart { padding: 14px 16px; border: 1px solid var(--filet); border-radius: 10px; font-size: 15px; }
+.encart b { color: var(--navy); font-weight: 600; }
+
+footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--filet); color: var(--doux); font-size: 13px; }
+
+@media (max-width: 600px) {
+  h1 { font-size: 28px; }
+  .ext { grid-template-columns: auto 1fr; }
+  .ext .ouvrir { grid-column: 2; grid-row: auto; justify-self: start; margin-top: 8px; }
+  .ext .reglage { grid-column: 1 / span 2; }
+  .outils { grid-template-columns: 1fr; }
+}
+@media print {
+  .progression { position: static; }
+  .ext .ouvrir { background: none; color: var(--navy); padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="surtitre">Formation SEO/GEO · HEC Paris · 18 et 19 novembre 2026</p>
+    <h1>Installer vos outils</h1>
+    <p class="chapo">Tout s'installe dans un profil Chrome réservé à la formation. Comptez 10 minutes.</p>
+  </div>
+</header>
+
+<div class="progression" aria-live="polite">
+  <div class="wrap">
+    <strong id="compteur">0 / 8 extensions installées</strong>
+    <div class="jauge" aria-hidden="true"><span id="jauge"></span></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <div class="alerte">
+    <p><b>Cette page doit être ouverte dans la fenêtre «&nbsp;Formation SEO&nbsp;».</b></p>
+    <p>Regardez l'avatar en haut à droite de Chrome. S'il n'affiche pas ce profil, commencez par l'étape&nbsp;1.</p>
+  </div>
+
+  <section id="profil">
+    <h2><span class="num">1</span>Créer le profil «&nbsp;Formation SEO&nbsp;»</h2>
+    <p class="doux">Une extension peut lire tout ce qui s'affiche dans la fenêtre où elle est installée. Le profil à part la tient éloignée de votre messagerie, de l'intranet et de OneDrive. C'est la consigne de la DSI de HEC.</p>
+    <ol class="pas">
+      <li>Cliquez sur l'avatar, en haut à droite de Chrome, puis sur <span class="bouton-ui">Ajouter un profil Chrome</span>.</li>
+      <li>Choisissez <span class="bouton-ui">Continuer sans compte</span>. Dans ce profil, ne vous connectez ni à Google ni à votre compte HEC.</li>
+      <li>Nommez le profil «&nbsp;Formation SEO&nbsp;» et choisissez une couleur. Cochez <span class="bouton-ui">Créer un raccourci sur le bureau</span>, puis cliquez sur <span class="bouton-ui">Terminé</span>.</li>
+      <li>Une nouvelle fenêtre s'ouvre, dans la couleur choisie. Tapez-y l'adresse de cette page&nbsp;:<br><span class="adresse mono">pribeaucourt.github.io/formation-hec</span></li>
+    </ol>
+    <p class="doux">Le 19 novembre, rouvrez ce profil depuis le raccourci du bureau ou depuis l'avatar.</p>
+  </section>
+
+  <section id="extensions">
+    <h2><span class="num">2</span>Installer les extensions</h2>
+    <p>Pour chaque extension&nbsp;: <b>Ouvrir la fiche</b>, puis <span class="bouton-ui">Ajouter à Chrome</span> sur la fiche, puis cochez la case ici.</p>
+
+    <h3>Pour l'atelier 1, à installer en premier</h3>
+    <div class="liste">
+      <div class="ext" data-id="pfjdepjjfjjahkjfpkcgfmfhmnakjfba">
+        <input type="checkbox" id="e1">
+        <label class="nom" for="e1">Detailed SEO Extension<span class="editeur">Ahrefs</span></label>
+        <p class="usage">Affiche le title, la meta description, les titres, la balise canonical et l'indexation de la page ouverte.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/pfjdepjjfjjahkjfpkcgfmfhmnakjfba" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+      </div>
+      <div class="ext" data-id="gppongmhjkpfnbhagpmjfkannfbllamg">
+        <input type="checkbox" id="e2">
+        <label class="nom" for="e2">Wappalyzer<span class="editeur">Wappalyzer</span></label>
+        <p class="usage">Indique les technologies d'un site&nbsp;: CMS, outils de mesure d'audience, frameworks.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/gppongmhjkpfnbhagpmjfkannfbllamg" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+        <p class="reglage"><b>Réglage demandé par la DSI de HEC</b>Après l'installation, faites un clic droit sur l'icône Wappalyzer, puis <span class="bouton-ui">Options</span>. Décochez «&nbsp;Envoyer anonymement des rapports sur les applications détectées à wappalyzer.com pour la recherche&nbsp;».</p>
+      </div>
+      <div class="ext" data-id="ckejmhbmlajgoklhgbapkiccekfoccmk">
+        <input type="checkbox" id="e3">
+        <label class="nom" for="e3">Simulateur téléphone mobile<span class="editeur">Mobile Simulator</span></label>
+        <p class="usage">Affiche la page ouverte comme sur un téléphone ou une tablette, parmi plus de 80 appareils.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/ckejmhbmlajgoklhgbapkiccekfoccmk" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+      </div>
+    </div>
+
+    <h3>Pour la suite de la formation</h3>
+    <div class="liste">
+      <div class="ext" data-id="nohnfalgehdinkbmfcjgloifjgbeebfb">
+        <input type="checkbox" id="e4">
+        <label class="nom" for="e4">SERP Exporter<span class="editeur">Empirik</span></label>
+        <p class="usage">Enregistre les 10 premiers résultats d'une recherche Google, avec une capture du haut de chaque page.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/nohnfalgehdinkbmfcjgloifjgbeebfb" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+      </div>
+      <div class="ext" data-id="cfonkadoaednddfgjmppmlmmnfopdngk">
+        <input type="checkbox" id="e5">
+        <label class="nom" for="e5">Reddit FAQ Finder<span class="editeur">Empirik</span></label>
+        <p class="usage">Trouve sur Reddit les questions que les internautes posent sur un mot-clé.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/cfonkadoaednddfgjmppmlmmnfopdngk" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+      </div>
+      <div class="ext" data-id="bboimgfdmeijiipbnjbpcbggjdhmgdgc">
+        <input type="checkbox" id="e6">
+        <label class="nom" for="e6">YouTube Channel Exporter<span class="editeur">Empirik</span></label>
+        <p class="usage">Exporte dans Excel les vidéos d'une chaîne YouTube et leurs statistiques.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/bboimgfdmeijiipbnjbpcbggjdhmgdgc" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+      </div>
+      <div class="ext" data-id="iondmdhingpjlgbkalmfpfojpmhkabda">
+        <input type="checkbox" id="e7">
+        <label class="nom" for="e7">MaillageBooster Enterprise<span class="editeur">Empirik</span></label>
+        <p class="usage">Analyse les liens internes d'un site et propose des pages à lier entre elles. Tout reste dans votre navigateur.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/iondmdhingpjlgbkalmfpfojpmhkabda" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+      </div>
+      <div class="ext" data-id="hlpghnnocnclmnkhmoacpoejpebfeifm">
+        <input type="checkbox" id="e8">
+        <label class="nom" for="e8">Search &amp; fan-out capture<span class="editeur">Resoneo</span></label>
+        <p class="usage">Montre les recherches que ChatGPT et Gemini lancent sur le web pour répondre, et les sources qu'ils citent.</p>
+        <a class="ouvrir" href="https://chromewebstore.google.com/detail/hlpghnnocnclmnkhmoacpoejpebfeifm" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
+        <p class="reglage"><b>Consigne de la DSI de HEC</b>Utilisez-la seulement pendant les exercices de la formation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="epingler">
+    <h2><span class="num">3</span>Épingler les extensions</h2>
+    <p>Cliquez sur l'icône en forme de pièce de puzzle, à droite de la barre d'adresse. Cliquez ensuite sur la punaise à côté de chaque extension&nbsp;: son icône reste visible dans la barre d'outils.</p>
+  </section>
+
+  <section id="sans-installation">
+    <h2><span class="num">4</span>Les outils sans installation</h2>
+    <ul class="outils">
+      <li><b>DevTools de Chrome</b><span>Touche F12 (Mac&nbsp;: Cmd+Option+I). Vue mobile&nbsp;: Ctrl+Maj+M (Mac&nbsp;: Cmd+Maj+M).</span></li>
+      <li><b><a href="https://www.haloscan.com/" target="_blank" rel="noopener">Haloscan</a> et <a href="https://neilpatel.com/fr/ubersuggest/" target="_blank" rel="noopener">Ubersuggest</a></b><span>Recherche de mots-clés.</span></li>
+      <li><b><a href="https://cuik.io/outils-seo-gratuits/similarite-serp/" target="_blank" rel="noopener">Cuik, similarité SERP</a></b><span>Comparer les résultats Google de deux mots-clés.</span></li>
+      <li><b><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> et <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a></b><span>Exercices GEO, sans y saisir de contenu interne.</span></li>
+    </ul>
+    <p class="encart"><b>Copilot reste dans votre profil habituel</b>, avec votre compte HEC. C'est le seul outil autorisé pour les contenus internes non publiés.</p>
+  </section>
+
+  <section id="screaming-frog">
+    <h2><span class="num">5</span>Screaming Frog, un poste par équipe</h2>
+    <p>Ce logiciel parcourt un site comme le robot de Google. Une seule personne par équipe l'installe. La version gratuite suffit&nbsp;: elle explore jusqu'à 500 URL. Les réglages de vitesse sont donnés en salle, pour ne pas surcharger hec.edu.</p>
+    <p><a href="https://www.screamingfrog.co.uk/seo-spider/" target="_blank" rel="noopener">Télécharger Screaming Frog SEO Spider</a> <span class="doux">(site de l'éditeur)</span></p>
+  </section>
+
+  <section id="fin">
+    <h2><span class="num">6</span>À la fin de la formation</h2>
+    <p>Supprimez le profil&nbsp;: cliquez sur l'avatar, puis sur <span class="bouton-ui">Gérer les profils Chrome</span>. Sur la carte «&nbsp;Formation SEO&nbsp;», ouvrez le menu à trois points, puis cliquez sur <span class="bouton-ui">Supprimer</span>. Les extensions disparaissent avec lui.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Page préparée par Empirik pour la formation SEO/GEO de HEC Paris. Liste des extensions validée par la DSI de HEC Paris en juillet 2026.
+  </div>
+</footer>
+
+<script>
+(function () {
+  var CLE = "formation-hec-extensions";
+  var cases = Array.prototype.slice.call(document.querySelectorAll(".ext input"));
+  var faites = {};
+  try { faites = JSON.parse(localStorage.getItem(CLE)) || {}; } catch (e) { faites = {}; }
+
+  function majCompteur() {
+    var n = 0;
+    cases.forEach(function (c) {
+      var carte = c.closest(".ext");
+      carte.classList.toggle("faite", c.checked);
+      if (c.checked) n++;
+    });
+    document.getElementById("compteur").textContent = n + " / " + cases.length + " extensions installées";
+    document.getElementById("jauge").style.width = (100 * n / cases.length) + "%";
+  }
+
+  cases.forEach(function (c) {
+    var id = c.closest(".ext").getAttribute("data-id");
+    c.checked = !!faites[id];
+    c.addEventListener("change", function () {
+      faites[id] = c.checked;
+      try { localStorage.setItem(CLE, JSON.stringify(faites)); } catch (e) {}
+      majCompteur();
+    });
+  });
+  majCompteur();
+})();
+</script>
+</body>
+</html>
