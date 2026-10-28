@@ -86,8 +86,8 @@ section > p { margin: 0 0 12px; }
 .ext.faite .nom::after { content: "Installée"; margin-left: 8px; padding: 1px 8px; border-radius: 4px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 500; vertical-align: 2px; }
 
 /* Onglets */
-.onglets { display: flex; gap: 8px; margin-top: 22px; }
-.onglets a { padding: 7px 18px; border: 1px solid #3B6385; border-radius: 999px; color: #fff; font-size: 15px; font-weight: 500; text-decoration: none; }
+.onglets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.onglets a { white-space: nowrap; padding: 7px 18px; border: 1px solid #3B6385; border-radius: 999px; color: #fff; font-size: 15px; font-weight: 500; text-decoration: none; }
 .onglets a:hover, .onglets a:focus-visible { border-color: #fff; }
 .onglets a[aria-current="page"] { background: #fff; border-color: #fff; color: var(--navy); }
 
@@ -110,6 +110,34 @@ section > p { margin: 0 0 12px; }
 .cadre.regex pre { word-break: break-all; }
 .consignes { margin: 0 0 8px; padding-left: 22px; }
 .consignes li { margin-bottom: 6px; }
+
+.choix { display: grid; gap: 10px; margin: 18px 0 22px; padding: 16px 18px; border-radius: 12px; background: var(--carte); }
+.choix-ligne { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.choix-titre { min-width: 140px; font-weight: 600; color: var(--navy); }
+.pilule { padding: 7px 18px; border: 1px solid var(--navy); border-radius: 999px; background: #fff; color: var(--navy); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+.pilule[aria-pressed="true"] { background: var(--navy); color: #fff; }
+@media (max-width: 600px) { .choix-titre { flex-basis: 100%; } }
+.favori { display: inline-block; padding: 10px 22px; border-radius: 999px; background: var(--orange); color: #fff; font-weight: 600; text-decoration: none; cursor: grab; }
+.favori:hover, .favori:focus-visible { background: var(--navy); color: #fff; }
+.place-favori { margin-top: 8px; }
+.place-favori p { margin: 0 0 6px; }
+.a-la-main { margin: 6px 0 16px; }
+.a-la-main summary { cursor: pointer; color: var(--navy); font-size: 14px; font-weight: 500; }
+.a-la-main .cadre pre { max-height: 120px; }
+.decodeur textarea { box-sizing: border-box; width: 100%; min-height: 120px; padding: 10px 12px; border: 1px solid var(--filet); border-radius: 8px; font: 12px/1.5 "Roboto Mono", ui-monospace, monospace; }
+.decodeur textarea#f-prompt { min-height: 64px; font-family: inherit; font-size: 15px; }
+.decodeur .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0 14px; }
+.bouton-action, .bouton-secondaire { padding: 7px 16px; border: 0; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+.bouton-action { background: var(--navy); color: #fff; }
+.bouton-action:disabled { opacity: .5; cursor: default; }
+.bouton-secondaire { background: var(--carte); color: var(--navy); }
+.resultat .bloc-resultat { margin-bottom: 14px; overflow-x: auto; }
+.resultat h4 { margin: 0 0 6px; color: var(--orange); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.resultat table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.resultat td { padding: 6px 8px; border-bottom: 1px solid var(--filet); vertical-align: top; overflow-wrap: anywhere; }
+.resultat td.dom { font-weight: 600; white-space: nowrap; }
+.pastilles { margin-top: 10px; }
+.alerte-texte { color: var(--orange); font-weight: 500; }
 
 footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--filet); color: var(--doux); font-size: 13px; }
 
@@ -138,7 +166,8 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
     <nav class="onglets" aria-label="Sections de la page">
       <a href="#outils" data-onglet="outils">Outils</a>
       <a href="#prompts" data-onglet="prompts">Prompts</a>
-      <a href="#geo" data-onglet="geo">GEO</a>
+      <a href="#geo" data-onglet="geo">Créer des prompts</a>
+      <a href="#analyse" data-onglet="analyse">Analyser des prompts</a>
     </nav>
   </div>
 </header>
@@ -474,6 +503,239 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 </main>
 </div>
 
+<div class="panneau" data-panneau="analyse">
+<main class="wrap">
+<!-- ANALYSE DEBUT -->
+<section id="analyse-reponses">
+  <h2>Analyser les réponses des IA, sans IMPAKKT</h2>
+  <div class="choix" id="choix">
+    <div class="choix-ligne"><span class="choix-titre">Je veux analyser</span>
+      <button type="button" class="pilule" data-besoin="fanout" aria-pressed="false">les fan-out</button>
+      <button type="button" class="pilule" data-besoin="sources" aria-pressed="false">les sources</button></div>
+    <div class="choix-ligne"><span class="choix-titre">sur</span>
+      <button type="button" class="pilule" data-ia="chatgpt" aria-pressed="false">ChatGPT</button>
+      <button type="button" class="pilule" data-ia="gemini" aria-pressed="false">Gemini</button>
+      <button type="button" class="pilule" data-ia="aio" aria-pressed="false">AI Overview</button></div>
+  </div>
+
+  <div class="methode" data-methode="fanout-gemini" hidden>
+    <div class="place-module"></div>
+  </div>
+
+  <div class="methode" data-methode="fanout-aio" hidden>
+    <p>Google ne publie pas les fan-out de l'AI Overview&nbsp;: le module les approche avec Gemini.</p>
+    <div class="place-module"></div>
+  </div>
+
+  <div class="methode" data-methode="sources-aio" hidden>
+    <ol class="consignes">
+      <li>Cherchez votre prompt sur <a href="https://www.google.fr/" target="_blank" rel="noopener">Google</a>.</li>
+      <li>Dans l'Aperçu IA, cliquez sur <span class="bouton-ui">Tout afficher</span> dans le panneau des sources.</li>
+      <li>Relevez les sources du panneau.</li>
+    </ol>
+  </div>
+
+  <div class="methode" data-methode="fanout-chatgpt" hidden>
+    <ol class="consignes">
+      <li>Installez le favori «&nbsp;Capture GEO&nbsp;» (une seule fois)&nbsp;:<div class="place-favori"></div></li>
+      <li>Connectez-vous à <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> (un compte gratuit suffit) et ouvrez une nouvelle discussion.</li>
+      <li>Cliquez sur le favori, puis posez votre prompt.</li>
+      <li>Copiez les fan-out du panneau avec <span class="bouton-ui">Copier pour Excel</span>.</li>
+    </ol>
+    <div class="place-secours"></div>
+  </div>
+
+  <div class="methode" data-methode="sources-chatgpt" hidden>
+    <ol class="consignes">
+      <li>Installez le favori «&nbsp;Capture GEO&nbsp;» (une seule fois)&nbsp;:<div class="place-favori"></div></li>
+      <li>Ouvrez <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> sur une nouvelle discussion.</li>
+      <li>Cliquez sur le favori, puis posez votre prompt.</li>
+      <li>Copiez les sources du panneau avec <span class="bouton-ui">Copier pour Excel</span>.</li>
+    </ol>
+    <div class="place-secours"></div>
+  </div>
+
+  <div class="methode" data-methode="sources-gemini" hidden>
+    <ol class="consignes">
+      <li>Installez le favori «&nbsp;Capture GEO&nbsp;» (une seule fois)&nbsp;:<div class="place-favori"></div></li>
+      <li>Ouvrez <a href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini</a> sur une nouvelle discussion.</li>
+      <li>Cliquez sur le favori, puis posez votre prompt.</li>
+      <li>Copiez les sources du panneau avec <span class="bouton-ui">Copier pour Excel</span>.</li>
+    </ol>
+  </div>
+
+  <div id="reserve" hidden>
+    <div class="decodeur" id="fanout-gemini" data-relais="https://script.google.com/macros/s/AKfycbxEZ9BGly7TJIqnGDnPHZ4MnZgftZ4GgGsBPSm0w11EeX-DmMxUEW6megBFq7B-c7El/exec">
+      <textarea id="f-prompt" maxlength="500" placeholder="Votre prompt"></textarea>
+      <div class="actions">
+        <button class="bouton-action" type="button" id="f-lancer">Voir les fan-out</button>
+        <button class="bouton-secondaire" type="button" id="f-copier" hidden>Copier</button>
+      </div>
+      <div id="f-resultat" class="resultat" aria-live="polite"></div>
+    </div>
+    <div id="bloc-favori">
+      <p><a class="favori" id="lien-favori" href="javascript:(function()%7B(function%20(racine)%20%7B%0A%22use%20strict%22%3B%0Afunction%20sansSuivi(url)%20%7B%0Atry%20%7B%0Avar%20u%20%3D%20new%20URL(url)%3B%0A%5B%22utm_source%22%2C%20%22utm_medium%22%2C%20%22utm_campaign%22%5D.forEach(function%20(p)%20%7B%20u.searchParams.delete(p)%3B%20%7D)%3B%0Au.hash%20%3D%20%22%22%3B%20%20%20%2F%2F%20ancres%20de%20surlignage%20ajout%C3%A9es%20par%20Gemini%20(%23%3A~%3Atext%3D%E2%80%A6)%0Avar%20s%20%3D%20u.toString()%3B%0Areturn%20s.replace(%2F%5C%3F%24%2F%2C%20%22%22)%3B%0A%7D%20catch%20(e)%20%7B%20return%20url%3B%20%7D%0A%7D%0Afunction%20domaine(url)%20%7B%0Atry%20%7B%20return%20new%20URL(url).hostname.replace(%2F%5Ewww%5C.%2F%2C%20%22%22)%3B%20%7D%20catch%20(e)%20%7B%20return%20%22%22%3B%20%7D%0A%7D%0Avar%20IGNORER%20%3D%20%2F(%5Ehttps%3F%3A%5C%2F%5C%2F(www%5C.)%3F(google%5C.com%5C%2Fs2%5C%2Ffavicons%7Cgstatic%5C.com%7Cencrypted-tbn%7Clh%5Cd%5C.googleusercontent)%7C%5C.(png%7Cjpe%3Fg%7Cgif%7Cwebp%7Csvg%7Cico)(%5C%3F%7C%24))%2Fi%3B%0Afunction%20nouveauResultat()%20%7B%0Areturn%20%7B%20plateforme%3A%20%22%22%2C%20prompts%3A%20%5B%5D%2C%20fanout%3A%20%5B%5D%2C%20consultees%3A%20%5B%5D%2C%20citees%3A%20%5B%5D%2C%20_vus%3A%20%7B%7D%20%7D%3B%0A%7D%0Afunction%20ajouteRequete(res%2C%20q)%20%7B%0Aq%20%3D%20(q%20%7C%7C%20%22%22).trim()%3B%0Aif%20(q%20%26%26%20!res._vus%5B%22q%22%20%2B%20q%5D)%20%7B%20res._vus%5B%22q%22%20%2B%20q%5D%20%3D%201%3B%20res.fanout.push(q)%3B%20%7D%0A%7D%0Afunction%20ajouteSource(res%2C%20liste%2C%20url%2C%20titre)%20%7B%0Aif%20(!url%20%7C%7C%20!%2F%5Ehttps%3F%3A%5C%2F%5C%2F%2F.test(url)%20%7C%7C%20IGNORER.test(url))%20return%3B%0Aurl%20%3D%20sansSuivi(url)%3B%0Avar%20cle%20%3D%20liste%20%2B%20url%3B%0Aif%20(res._vus%5Bcle%5D)%20%7B%0Avar%20deja%20%3D%20res%5Bliste%5D.filter(function%20(s)%20%7B%20return%20s.url%20%3D%3D%3D%20url%3B%20%7D)%5B0%5D%3B%0Aif%20(deja%20%26%26%20!deja.titre%20%26%26%20titre)%20deja.titre%20%3D%20titre%3B%0Areturn%3B%0A%7D%0Ares._vus%5Bcle%5D%20%3D%201%3B%0Ares%5Bliste%5D.push(%7B%20domaine%3A%20domaine(url)%2C%20titre%3A%20(titre%20%7C%7C%20%22%22).replace(%2F%5Cs%2B%2Fg%2C%20%22%20%22).trim()%2C%20url%3A%20url%20%7D)%3B%0A%7D%0Afunction%20objetsJSON(texte)%20%7B%0Avar%20objets%20%3D%20%5B%5D%3B%0Avar%20t%20%3D%20texte.trim()%3B%0Aif%20(t%5B0%5D%20%3D%3D%3D%20%22%7B%22%20%7C%7C%20t%5B0%5D%20%3D%3D%3D%20%22%5B%22)%20%7B%20try%20%7B%20objets.push(JSON.parse(t))%3B%20return%20objets%3B%20%7D%20catch%20(e)%20%7B%7D%20%7D%0At.split(%2F%5Cr%3F%5Cn%2F).forEach(function%20(ligne)%20%7B%0Aligne%20%3D%20ligne.trim()%3B%0Aif%20(ligne.indexOf(%22data%3A%22)%20%3D%3D%3D%200)%20ligne%20%3D%20ligne.slice(5).trim()%3B%0Aif%20(ligne%5B0%5D%20!%3D%3D%20%22%7B%22%20%26%26%20ligne%5B0%5D%20!%3D%3D%20%22%5B%22)%20return%3B%0Atry%20%7B%20objets.push(JSON.parse(ligne))%3B%20%7D%20catch%20(e)%20%7B%7D%0A%7D)%3B%0Areturn%20objets%3B%0A%7D%0Afunction%20parcourtChatGPT(x%2C%20chemin%2C%20res)%20%7B%0Aif%20(Array.isArray(x))%20%7B%20x.forEach(function%20(v)%20%7B%20parcourtChatGPT(v%2C%20chemin%2C%20res)%3B%20%7D)%3B%20return%3B%20%7D%0Aif%20(!x%20%7C%7C%20typeof%20x%20!%3D%3D%20%22object%22)%20return%3B%0Aif%20(typeof%20x.p%20%3D%3D%3D%20%22string%22%20%26%26%20%22v%22%20in%20x)%20%7B%20parcourtChatGPT(x.v%2C%20chemin%20%2B%20x.p%2C%20res)%3B%20%7D%0Aif%20(x.type%20%3D%3D%3D%20%22search_model_queries%22%20%26%26%20Array.isArray(x.queries))%20x.queries.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20typeof%20q%20%3D%3D%3D%20%22string%22%20%3F%20q%20%3A%20q%20%26%26%20(q.q%20%7C%7C%20q.query))%3B%20%7D)%3B%0Aif%20(Array.isArray(x.search_queries))%20x.search_queries.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20typeof%20q%20%3D%3D%3D%20%22string%22%20%3F%20q%20%3A%20q%20%26%26%20(q.q%20%7C%7C%20q.query))%3B%20%7D)%3B%0Aif%20(%2Fsearch_model_queries%7Csearch_queries%2F.test(chemin)%20%26%26%20typeof%20x.q%20%3D%3D%3D%20%22string%22)%20ajouteRequete(res%2C%20x.q)%3B%0Aif%20(%2Fsearch_model_queries%5C%2Fqueries%2F.test(chemin)%20%26%26%20Array.isArray(x))%20x.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20q)%3B%20%7D)%3B%0Aif%20(x.author%20%26%26%20x.author.role%20%3D%3D%3D%20%22user%22%20%26%26%20x.content%20%26%26%20Array.isArray(x.content.parts))%20%7B%0Ax.content.parts.forEach(function%20(p)%20%7B%20if%20(typeof%20p%20%3D%3D%3D%20%22string%22%20%26%26%20p.trim()%20%26%26%20res.prompts.indexOf(p.trim())%20%3C%200)%20res.prompts.push(p.trim())%3B%20%7D)%3B%0A%7D%0Aif%20(typeof%20x.url%20%3D%3D%3D%20%22string%22)%20%7B%0Aif%20(%2Fsearch_result_groups%7CsearchSources%2F.test(chemin))%20ajouteSource(res%2C%20%22consultees%22%2C%20x.url%2C%20x.title%20%7C%7C%20x.attribution)%3B%0Aelse%20if%20(%2Fcontent_references%7Creferences%7Ccitations%7Csources_footnote%2F.test(chemin))%20ajouteSource(res%2C%20%22citees%22%2C%20x.url%2C%20x.title%20%7C%7C%20x.source_label%20%7C%7C%20x.attribution)%3B%0A%7D%0AObject.keys(x).forEach(function%20(k)%20%7B%0Aif%20(k%20%3D%3D%3D%20%22v%22%20%26%26%20typeof%20x.p%20%3D%3D%3D%20%22string%22)%20return%3B%0Avar%20v%20%3D%20x%5Bk%5D%3B%0Aif%20(v%20%26%26%20typeof%20v%20%3D%3D%3D%20%22object%22)%20parcourtChatGPT(v%2C%20chemin%20%2B%20%22%2F%22%20%2B%20k%2C%20res)%3B%0Aelse%20if%20(k%20%3D%3D%3D%20%22queries%22%20%26%26%20Array.isArray(v))%20v.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20q)%3B%20%7D)%3B%0A%7D)%3B%0Aif%20(typeof%20x.p%20%3D%3D%3D%20%22string%22%20%26%26%20%2Fsearch_model_queries%2F.test(x.p)%20%26%26%20Array.isArray(x.v))%20x.v.forEach(function%20(q)%20%7B%20if%20(typeof%20q%20%3D%3D%3D%20%22string%22)%20ajouteRequete(res%2C%20q)%3B%20%7D)%3B%0A%7D%0Afunction%20decodeChatGPT(texte%2C%20res)%20%7B%0Ares.plateforme%20%3D%20res.plateforme%20%7C%7C%20%22ChatGPT%22%3B%0AobjetsJSON(texte).forEach(function%20(o)%20%7B%20parcourtChatGPT(o%2C%20%22%22%2C%20res)%3B%20%7D)%3B%0Ares.citees.forEach(function%20(s)%20%7B%20if%20(!res._vus%5B%22consultees%22%20%2B%20s.url%5D)%20ajouteSource(res%2C%20%22consultees%22%2C%20s.url%2C%20s.titre)%3B%20%7D)%3B%0A%7D%0Afunction%20base64EnOctets(s)%20%7B%0As%20%3D%20s.replace(%2F-%2Fg%2C%20%22%2B%22).replace(%2F_%2Fg%2C%20%22%2F%22)%3B%0Awhile%20(s.length%20%25%204)%20s%20%2B%3D%20%22%3D%22%3B%0Avar%20bin%20%3D%20atob(s)%2C%20o%20%3D%20new%20Uint8Array(bin.length)%3B%0Afor%20(var%20i%20%3D%200%3B%20i%20%3C%20bin.length%3B%20i%2B%2B)%20o%5Bi%5D%20%3D%20bin.charCodeAt(i)%3B%0Areturn%20o%3B%0A%7D%0Avar%20utf8%20%3D%20typeof%20TextDecoder%20!%3D%3D%20%22undefined%22%20%3F%20new%20TextDecoder(%22utf-8%22%2C%20%7B%20fatal%3A%20true%20%7D)%20%3A%20null%3B%0Afunction%20protobuf(b%2C%20prof)%20%7B%0Avar%20p%20%3D%200%2C%20champs%20%3D%20%5B%5D%3B%0Afunction%20varint()%20%7B%0Avar%20r%20%3D%200%2C%20m%20%3D%201%2C%20c%3B%0Ado%20%7B%20if%20(p%20%3E%3D%20b.length)%20throw%20new%20Error(%22fin%22)%3B%20c%20%3D%20b%5Bp%2B%2B%5D%3B%20r%20%2B%3D%20(c%20%26%20127)%20*%20m%3B%20m%20*%3D%20128%3B%20%7D%20while%20(c%20%26%20128)%3B%0Areturn%20r%3B%0A%7D%0Awhile%20(p%20%3C%20b.length)%20%7B%0Avar%20cle%20%3D%20varint()%2C%20champ%20%3D%20Math.floor(cle%20%2F%208)%2C%20type%20%3D%20cle%20%25%208%3B%0Aif%20(champ%20%3D%3D%3D%200)%20throw%20new%20Error(%22champ%22)%3B%0Aif%20(type%20%3D%3D%3D%200)%20champs.push(%5Bchamp%2C%20varint()%5D)%3B%0Aelse%20if%20(type%20%3D%3D%3D%201)%20p%20%2B%3D%208%3B%0Aelse%20if%20(type%20%3D%3D%3D%205)%20p%20%2B%3D%204%3B%0Aelse%20if%20(type%20%3D%3D%3D%202)%20%7B%0Avar%20n%20%3D%20varint()%2C%20sous%20%3D%20b.subarray(p%2C%20p%20%2B%20n)%3B%0Ap%20%2B%3D%20n%3B%0Aif%20(p%20%3E%20b.length)%20throw%20new%20Error(%22longueur%22)%3B%0Avar%20v%20%3D%20null%3B%0Aif%20(prof%20%3C%2040%20%26%26%20n)%20%7B%20try%20%7B%20v%20%3D%20protobuf(sous%2C%20prof%20%2B%201)%3B%20%7D%20catch%20(e)%20%7B%20v%20%3D%20null%3B%20%7D%20%7D%0Aif%20(v%20%3D%3D%3D%20null)%20%7B%20try%20%7B%20v%20%3D%20utf8.decode(sous)%3B%20%7D%20catch%20(e)%20%7B%20v%20%3D%20%22%22%3B%20%7D%20%7D%0Achamps.push(%5Bchamp%2C%20v%5D)%3B%0A%7D%20else%20throw%20new%20Error(%22type%22)%3B%0A%7D%0Areturn%20champs%3B%0A%7D%0Afunction%20parcourtGemini(noeud%2C%20res)%20%7B%0Aif%20(!Array.isArray(noeud))%20return%3B%0Avar%20s%20%3D%20%7B%7D%3B%0Anoeud.forEach(function%20(c)%20%7B%20if%20(typeof%20c%5B1%5D%20%3D%3D%3D%20%22string%22%20%26%26%20!(c%5B0%5D%20in%20s))%20s%5Bc%5B0%5D%5D%20%3D%20c%5B1%5D%3B%20%7D)%3B%0Avar%20estURL%20%3D%20function%20(x)%20%7B%20return%20typeof%20x%20%3D%3D%3D%20%22string%22%20%26%26%20%2F%5Ehttps%3F%3A%5C%2F%5C%2F%2F.test(x)%3B%20%7D%3B%0Aif%20(estURL(s%5B1%5D)%20%26%26%20%2Fgstatic%5C.com%5C%2Ffavicon%2F.test(s%5B1%5D)%20%26%26%20estURL(s%5B2%5D)%20%26%26%20s%5B3%5D)%20ajouteSource(res%2C%20%22consultees%22%2C%20s%5B2%5D%2C%20s%5B3%5D)%3B%0Aelse%20if%20(estURL(s%5B1%5D)%20%26%26%20!%2Fgstatic%7Cgoogleusercontent%7Cgoogle%5C.com%5C%2Fmaps%2F.test(s%5B1%5D)%20%26%26%20s%5B2%5D%20%26%26%20!estURL(s%5B2%5D))%20ajouteSource(res%2C%20%22citees%22%2C%20s%5B1%5D%2C%20s%5B2%5D%20%2B%20(s%5B7%5D%20%3F%20%22%20%C2%B7%20%22%20%2B%20s%5B7%5D%20%3A%20%22%22))%3B%0Anoeud.forEach(function%20(c)%20%7B%20if%20(Array.isArray(c%5B1%5D))%20parcourtGemini(c%5B1%5D%2C%20res)%3B%20%7D)%3B%0A%7D%0Afunction%20decodeGemini(texte%2C%20res)%20%7B%0Ares.plateforme%20%3D%20res.plateforme%20%7C%7C%20%22Gemini%22%3B%0Avar%20trames%20%3D%20texte.match(%2F%5C%5B%5C%5B%5Cd%2B%2C%5C%5B%22%5BA-Za-z0-9%2B%5C%2F%3D_-%5D%7B8%2C%7D%22%5C%5D%5C%5D%5C%5D%2Fg)%20%7C%7C%20%5B%5D%3B%0Atrames.forEach(function%20(t)%20%7B%0Avar%20b64%20%3D%20t.slice(t.indexOf('%5B%22')%20%2B%202%2C%20t.lastIndexOf('%22%5D'))%3B%0Atry%20%7B%20parcourtGemini(protobuf(base64EnOctets(b64)%2C%200)%2C%20res)%3B%20%7D%20catch%20(e)%20%7B%7D%0A%7D)%3B%0Ares.citees.forEach(function%20(s)%20%7B%20if%20(!res._vus%5B%22consultees%22%20%2B%20s.url%5D)%20ajouteSource(res%2C%20%22consultees%22%2C%20s.url%2C%20s.titre.split(%22%20%C2%B7%20%22)%5B0%5D)%3B%20%7D)%3B%0A%7D%0Afunction%20analyse(texte)%20%7B%0Avar%20res%20%3D%20nouveauResultat()%3B%0Avar%20t%20%3D%20(texte%20%7C%7C%20%22%22).trim()%3B%0Avar%20har%20%3D%20null%3B%0Aif%20(t%5B0%5D%20%3D%3D%3D%20%22%7B%22%20%26%26%20t.indexOf('%22log%22')%20%3E%3D%200)%20%7B%20try%20%7B%20har%20%3D%20JSON.parse(t)%3B%20%7D%20catch%20(e)%20%7B%20har%20%3D%20null%3B%20%7D%20%7D%0Aif%20(har%20%26%26%20har.log%20%26%26%20Array.isArray(har.log.entries))%20%7B%0Ahar.log.entries.forEach(function%20(e)%20%7B%0Avar%20url%20%3D%20(e.request%20%26%26%20e.request.url)%20%7C%7C%20%22%22%2C%20c%20%3D%20(e.response%20%26%26%20e.response.content)%20%7C%7C%20%7B%7D%3B%0Avar%20corps%20%3D%20c.text%20%7C%7C%20%22%22%3B%0Aif%20(!corps)%20return%3B%0Aif%20(c.encoding%20%3D%3D%3D%20%22base64%22)%20%7B%20try%20%7B%20corps%20%3D%20new%20TextDecoder(%22utf-8%22).decode(base64EnOctets(corps))%3B%20%7D%20catch%20(x)%20%7B%20return%3B%20%7D%20%7D%0Aif%20(%2FprocessSession%7CStreamGenerate%2F.test(url))%20decodeGemini(corps%2C%20res)%3B%0Aelse%20if%20(%2Fchatgpt%5C.com%5C%2F(backend-api%7Cbackend-anon%7Cunauth-mweb)%5C%2F.*conversation%2F.test(url))%20decodeChatGPT(corps%2C%20res)%3B%0A%7D)%3B%0A%7D%20else%20if%20(%2F%5C%5B%5C%5B%5Cd%2B%2C%5C%5B%22%5BA-Za-z0-9%2B%5C%2F%3D_-%5D%7B8%2C%7D%22%5C%5D%5C%5D%5C%5D%2F.test(t))%20decodeGemini(t%2C%20res)%3B%0Aelse%20decodeChatGPT(t%2C%20res)%3B%0Adelete%20res._vus%3B%0Areturn%20res%3B%0A%7D%0Afunction%20versTSV(res)%20%7B%0Avar%20l%20%3D%20%5B%22Type%5CtDomaine%5CtTitre%5CtURL%22%5D%3B%0Ares.fanout.forEach(function%20(q)%20%7B%20l.push(%22Fan-out%5Ct%5Ct%22%20%2B%20q.replace(%2F%5Ct%2Fg%2C%20%22%20%22)%20%2B%20%22%5Ct%22)%3B%20%7D)%3B%0Ares.citees.forEach(function%20(s)%20%7B%20l.push(%22Source%20cit%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre.replace(%2F%5Ct%2Fg%2C%20%22%20%22)%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Ares.consultees.forEach(function%20(s)%20%7B%20l.push(%22Source%20consult%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre.replace(%2F%5Ct%2Fg%2C%20%22%20%22)%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Areturn%20l.join(%22%5Cn%22)%3B%0A%7D%0Aracine.DecodeurGEO%20%3D%20%7B%20analyse%3A%20analyse%2C%20versTSV%3A%20versTSV%2C%20decodeChatGPT%3A%20decodeChatGPT%2C%20decodeGemini%3A%20decodeGemini%2C%20nouveauResultat%3A%20nouveauResultat%20%7D%3B%0A%7D)(typeof%20window%20!%3D%3D%20%22undefined%22%20%3F%20window%20%3A%20globalThis)%3B%0A(function%20()%20%7B%0A%22use%20strict%22%3B%0Aif%20(window.__captureGEO)%20%7B%20window.__captureGEO.montrer()%3B%20return%3B%20%7D%0Avar%20D%20%3D%20window.DecodeurGEO%3B%0Avar%20PERTINENT%20%3D%20%2F%5C%2F(backend-api%7Cbackend-anon)%5C%2F(f%5C%2F%7Cfc%5C%2F)%3Fconversation%7C%5C%2Funauth-mweb%5C%2Fconversation%7CprocessSession%7CStreamGenerate%2F%3B%0Avar%20flux%20%3D%20%5B%5D%3B%0Avar%20minuterie%20%3D%20null%2C%20calme%20%3D%20null%2C%20derniereDonnee%20%3D%200%3B%0Afunction%20maj()%20%7B%0AderniereDonnee%20%3D%20Date.now()%3B%0AclearTimeout(minuterie)%3B%20minuterie%20%3D%20setTimeout(rendu%2C%20400)%3B%0AclearTimeout(calme)%3B%20calme%20%3D%20setTimeout(rendu%2C%203200)%3B%0A%7D%0Avar%20fetch0%20%3D%20window.fetch%3B%0Awindow.fetch%20%3D%20function%20()%20%7B%0Avar%20args%20%3D%20arguments%3B%0Areturn%20fetch0.apply(this%2C%20args).then(function%20(rep)%20%7B%0Atry%20%7B%0Avar%20url%20%3D%20rep.url%20%7C%7C%20(args%5B0%5D%20%26%26%20args%5B0%5D.url)%20%7C%7C%20String(args%5B0%5D)%3B%0Aif%20(PERTINENT.test(url))%20%7B%0Avar%20e%20%3D%20%7B%20url%3A%20url%2C%20texte%3A%20%22%22%2C%20fini%3A%20false%20%7D%3B%0Aflux.push(e)%3B%20maj()%3B%0Arep.clone().text().then(function%20(t)%20%7B%20e.texte%20%3D%20t%3B%20e.fini%20%3D%20true%3B%20maj()%3B%20%7D%2C%20function%20()%20%7B%20e.fini%20%3D%20true%3B%20maj()%3B%20%7D)%3B%0A%7D%0A%7D%20catch%20(x)%20%7B%7D%0Areturn%20rep%3B%0A%7D)%3B%0A%7D%3B%0Avar%20open0%20%3D%20XMLHttpRequest.prototype.open%2C%20send0%20%3D%20XMLHttpRequest.prototype.send%3B%0AXMLHttpRequest.prototype.open%20%3D%20function%20(m%2C%20u)%20%7B%20this.__urlGEO%20%3D%20String(u)%3B%20return%20open0.apply(this%2C%20arguments)%3B%20%7D%3B%0AXMLHttpRequest.prototype.send%20%3D%20function%20()%20%7B%0Avar%20x%20%3D%20this%3B%0Aif%20(PERTINENT.test(x.__urlGEO%20%7C%7C%20%22%22))%20%7B%0Aif%20(x.__entreeGEO)%20x.__entreeGEO.fini%20%3D%20true%3B%0Avar%20e%20%3D%20%7B%20url%3A%20x.__urlGEO%2C%20texte%3A%20%22%22%2C%20fini%3A%20false%20%7D%3B%0Ax.__entreeGEO%20%3D%20e%3B%0Aflux.push(e)%3B%0Aif%20(!x.__ecouteGEO)%20%7B%0Ax.__ecouteGEO%20%3D%20true%3B%0Ax.addEventListener(%22readystatechange%22%2C%20function%20()%20%7B%0Avar%20c%20%3D%20x.__entreeGEO%3B%0Aif%20(!c%20%7C%7C%20x.readyState%20%3C%203)%20return%3B%0Atry%20%7B%20if%20(x.responseText)%20c.texte%20%3D%20x.responseText%3B%20%7D%20catch%20(z)%20%7B%7D%0Aif%20(x.readyState%20%3D%3D%3D%204)%20c.fini%20%3D%20true%3B%0Amaj()%3B%0A%7D)%3B%0A%7D%0A%7D%0Areturn%20send0.apply(this%2C%20arguments)%3B%0A%7D%3B%0Afunction%20resultat()%20%7B%0Avar%20r%20%3D%20%7B%20plateforme%3A%20%2Fgemini%2F.test(location.host)%20%3F%20%22Gemini%22%20%3A%20%22ChatGPT%22%2C%20fanout%3A%20%5B%5D%2C%20citees%3A%20%5B%5D%2C%20consultees%3A%20%5B%5D%20%7D%3B%0Avar%20vus%20%3D%20%7B%7D%3B%0Aflux.forEach(function%20(e)%20%7B%0Aif%20(!e.texte)%20return%3B%0Avar%20x%20%3D%20D.analyse(e.texte)%3B%0Ax.fanout.forEach(function%20(q)%20%7B%20if%20(!vus%5B%22q%22%20%2B%20q%5D)%20%7B%20vus%5B%22q%22%20%2B%20q%5D%20%3D%201%3B%20r.fanout.push(q)%3B%20%7D%20%7D)%3B%0A%5B%22citees%22%2C%20%22consultees%22%5D.forEach(function%20(l)%20%7B%0Ax%5Bl%5D.forEach(function%20(s)%20%7B%20if%20(!vus%5Bl%20%2B%20s.url%5D)%20%7B%20vus%5Bl%20%2B%20s.url%5D%20%3D%201%3B%20r%5Bl%5D.push(s)%3B%20%7D%20%7D)%3B%0A%7D)%3B%0A%7D)%3B%0Areturn%20r%3B%0A%7D%0Avar%20C%20%3D%20%7B%20navy%3A%20%22%230A3856%22%2C%20orange%3A%20%22%23E9540D%22%2C%20doux%3A%20%22%23445A6E%22%2C%20carte%3A%20%22%23F3F6F9%22%2C%20filet%3A%20%22%23D5DCE3%22%20%7D%3B%0Afunction%20el(tag%2C%20style%2C%20texte)%20%7B%0Avar%20n%20%3D%20document.createElement(tag)%3B%0Aif%20(style)%20n.setAttribute(%22style%22%2C%20style)%3B%0Aif%20(texte%20!%3D%20null)%20n.textContent%20%3D%20texte%3B%0Areturn%20n%3B%0A%7D%0Avar%20panneau%20%3D%20el(%22div%22%2C%20%22position%3Afixed%3Btop%3A72px%3Bright%3A16px%3Bwidth%3A380px%3Bmax-height%3A72vh%3Boverflow%3Aauto%3Bz-index%3A2147483647%3Bbackground%3A%23fff%3Bcolor%3A%22%20%2B%20C.navy%20%2B%0A%22%3Bborder%3A1px%20solid%20%22%20%2B%20C.filet%20%2B%20%22%3Bborder-radius%3A12px%3Bbox-shadow%3A0%208px%2028px%20rgba(10%2C56%2C86%2C.25)%3Bfont%3A13px%2F1.45%20system-ui%2C-apple-system%2CSegoe%20UI%2CArial%2Csans-serif%3Bpadding%3A14px%2016px%3Btext-align%3Aleft%22)%3B%0Avar%20tete%20%3D%20el(%22div%22%2C%20%22display%3Aflex%3Balign-items%3Acenter%3Bgap%3A8px%3Bmargin-bottom%3A8px%22)%3B%0Atete.appendChild(el(%22strong%22%2C%20%22font-size%3A14px%3Bflex%3A1%22%2C%20%22Capture%20GEO%22))%3B%0Afunction%20bouton(texte%2C%20action%2C%20principal)%20%7B%0Avar%20b%20%3D%20el(%22button%22%2C%20%22border%3A0%3Bborder-radius%3A6px%3Bpadding%3A5px%2010px%3Bfont%3A600%2012px%20system-ui%2CArial%2Csans-serif%3Bcursor%3Apointer%3B%22%20%2B%0A(principal%20%3F%20%22background%3A%22%20%2B%20C.navy%20%2B%20%22%3Bcolor%3A%23fff%22%20%3A%20%22background%3A%22%20%2B%20C.carte%20%2B%20%22%3Bcolor%3A%22%20%2B%20C.navy)%2C%20texte)%3B%0Ab.type%20%3D%20%22button%22%3B%0Ab.addEventListener(%22click%22%2C%20action)%3B%0Areturn%20b%3B%0A%7D%0Avar%20copier%20%3D%20bouton(%22Copier%20pour%20Excel%22%2C%20function%20()%20%7B%0Avar%20r%20%3D%20resultat()%3B%0Avar%20l%20%3D%20%5B%22Type%5CtDomaine%5CtTitre%5CtURL%22%5D%3B%0Ar.fanout.forEach(function%20(q)%20%7B%20l.push(%22Fan-out%5Ct%5Ct%22%20%2B%20q%20%2B%20%22%5Ct%22)%3B%20%7D)%3B%0Ar.citees.forEach(function%20(s)%20%7B%20l.push(%22Source%20cit%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Ar.consultees.forEach(function%20(s)%20%7B%20l.push(%22Source%20consult%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Avar%20fini%20%3D%20function%20()%20%7B%20copier.textContent%20%3D%20%22Copi%C3%A9%20!%22%3B%20setTimeout(function%20()%20%7B%20copier.textContent%20%3D%20%22Copier%20pour%20Excel%22%3B%20%7D%2C%201500)%3B%20%7D%3B%0Avar%20zone%20%3D%20el(%22textarea%22%2C%20%22position%3Afixed%3Bleft%3A-9999px%22)%3B%0Azone.value%20%3D%20l.join(%22%5Cn%22)%3B%0Adocument.body.appendChild(zone)%3B%20zone.select()%3B%0Atry%20%7B%20document.execCommand(%22copy%22)%3B%20fini()%3B%20%7D%20catch%20(x)%20%7B%7D%0Azone.remove()%3B%0A%7D%2C%20true)%3B%0Atete.appendChild(copier)%3B%0Atete.appendChild(bouton(%22Effacer%22%2C%20function%20()%20%7B%20flux.length%20%3D%200%3B%20rendu()%3B%20%7D))%3B%0Atete.appendChild(bouton(%22%C3%97%22%2C%20function%20()%20%7B%20panneau.style.display%20%3D%20%22none%22%3B%20%7D))%3B%0Apanneau.appendChild(tete)%3B%0Avar%20corps%20%3D%20el(%22div%22)%3B%0Apanneau.appendChild(corps)%3B%0Adocument.body.appendChild(panneau)%3B%0Afunction%20section(titre%2C%20n)%20%7B%0Avar%20s%20%3D%20el(%22div%22%2C%20%22margin-top%3A10px%22)%3B%0As.appendChild(el(%22div%22%2C%20%22font-weight%3A700%3Bcolor%3A%22%20%2B%20C.orange%20%2B%20%22%3Bfont-size%3A11px%3Bletter-spacing%3A.05em%3Btext-transform%3Auppercase%3Bmargin-bottom%3A4px%22%2C%20titre%20%2B%20%22%20(%22%20%2B%20n%20%2B%20%22)%22))%3B%0Acorps.appendChild(s)%3B%0Areturn%20s%3B%0A%7D%0Afunction%20rendu()%20%7B%0Awhile%20(corps.firstChild)%20corps.removeChild(corps.firstChild)%3B%0Avar%20r%20%3D%20resultat()%3B%0Avar%20enCours%20%3D%20flux.some(function%20(e)%20%7B%20return%20!e.fini%3B%20%7D)%20%26%26%20Date.now()%20-%20derniereDonnee%20%3C%203000%3B%0Avar%20etat%20%3D%20!flux.length%20%3F%20%22Posez%20votre%20question%20%3A%20la%20capture%20commence.%22%20%3A%20enCours%20%3F%20%22R%C3%A9ponse%20en%20cours%20de%20r%C3%A9ception%E2%80%A6%22%20%3A%20%22R%C3%A9ponse%20re%C3%A7ue.%22%3B%0Acorps.appendChild(el(%22div%22%2C%20%22color%3A%22%20%2B%20C.doux%2C%20r.plateforme%20%2B%20%22%20%C2%B7%20%22%20%2B%20etat))%3B%0Avar%20f%20%3D%20section(%22Fan-out%22%2C%20r.fanout.length)%3B%0Aif%20(!r.fanout.length)%20f.appendChild(el(%22div%22%2C%20%22color%3A%22%20%2B%20C.doux%20%2B%20%22%3Bfont-size%3A12px%22%2C%0Aflux.length%20%3F%20%22Aucun%20fan-out%20transmis.%20Sans%20compte%2C%20ChatGPT%20et%20Gemini%20ne%20les%20envoient%20pas%20%3A%20connectez-vous%20%C3%A0%20ChatGPT%20pour%20les%20voir.%22%20%3A%20%22En%20attente.%22))%3B%0Ar.fanout.forEach(function%20(q)%20%7B%20f.appendChild(el(%22div%22%2C%20%22padding%3A3px%200%3Bborder-bottom%3A1px%20solid%20%22%20%2B%20C.carte%2C%20q))%3B%20%7D)%3B%0A%5B%5B%22Sources%20cit%C3%A9es%22%2C%20r.citees%5D%2C%20%5B%22Sources%20consult%C3%A9es%22%2C%20r.consultees%5D%5D.forEach(function%20(p)%20%7B%0Avar%20s%20%3D%20section(p%5B0%5D%2C%20p%5B1%5D.length)%3B%0Ap%5B1%5D.forEach(function%20(x)%20%7B%0Avar%20a%20%3D%20el(%22a%22%2C%20%22display%3Ablock%3Bpadding%3A3px%200%3Bborder-bottom%3A1px%20solid%20%22%20%2B%20C.carte%20%2B%20%22%3Bcolor%3A%22%20%2B%20C.navy%20%2B%20%22%3Btext-decoration%3Anone%22)%3B%0Aa.href%20%3D%20x.url%3B%20a.target%20%3D%20%22_blank%22%3B%20a.rel%20%3D%20%22noopener%22%3B%0Aa.appendChild(el(%22span%22%2C%20%22font-weight%3A600%22%2C%20x.domaine%20%2B%20%22%20%22))%3B%0Aa.appendChild(el(%22span%22%2C%20%22color%3A%22%20%2B%20C.doux%2C%20x.titre))%3B%0As.appendChild(a)%3B%0A%7D)%3B%0A%7D)%3B%0A%7D%0Arendu()%3B%0Awindow.__captureGEO%20%3D%20%7B%20resultat%3A%20resultat%2C%20montrer%3A%20function%20()%20%7B%20panneau.style.display%20%3D%20%22block%22%3B%20rendu()%3B%20%7D%2C%20flux%3A%20flux%20%7D%3B%0A%7D)()%3B%0A%7D)()%3Bvoid%200" title="Faites glisser ce bouton dans la barre de favoris">Capture GEO</a></p>
+      <p class="doux">Faites glisser ce bouton dans la barre de favoris (<span class="bouton-ui">Ctrl</span> + <span class="bouton-ui">Maj</span> + <span class="bouton-ui">B</span> pour l'afficher).</p>
+      <details class="a-la-main"><summary>Ou créer le favori à la main</summary>
+        <ol class="consignes">
+          <li>Cliquez sur <span class="bouton-ui">Copier</span> ci-dessous.</li>
+          <li>Clic droit dans la barre de favoris, puis <span class="bouton-ui">Ajouter une page…</span></li>
+          <li>Nom&nbsp;: Capture GEO. URL&nbsp;: collez le code, puis enregistrez.</li>
+        </ol>
+        <div class="cadre regex"><button class="copier" type="button" data-cible="t-favori">Copier</button><pre id="t-favori">javascript:(function()%7B(function%20(racine)%20%7B%0A%22use%20strict%22%3B%0Afunction%20sansSuivi(url)%20%7B%0Atry%20%7B%0Avar%20u%20%3D%20new%20URL(url)%3B%0A%5B%22utm_source%22%2C%20%22utm_medium%22%2C%20%22utm_campaign%22%5D.forEach(function%20(p)%20%7B%20u.searchParams.delete(p)%3B%20%7D)%3B%0Au.hash%20%3D%20%22%22%3B%20%20%20%2F%2F%20ancres%20de%20surlignage%20ajout%C3%A9es%20par%20Gemini%20(%23%3A~%3Atext%3D%E2%80%A6)%0Avar%20s%20%3D%20u.toString()%3B%0Areturn%20s.replace(%2F%5C%3F%24%2F%2C%20%22%22)%3B%0A%7D%20catch%20(e)%20%7B%20return%20url%3B%20%7D%0A%7D%0Afunction%20domaine(url)%20%7B%0Atry%20%7B%20return%20new%20URL(url).hostname.replace(%2F%5Ewww%5C.%2F%2C%20%22%22)%3B%20%7D%20catch%20(e)%20%7B%20return%20%22%22%3B%20%7D%0A%7D%0Avar%20IGNORER%20%3D%20%2F(%5Ehttps%3F%3A%5C%2F%5C%2F(www%5C.)%3F(google%5C.com%5C%2Fs2%5C%2Ffavicons%7Cgstatic%5C.com%7Cencrypted-tbn%7Clh%5Cd%5C.googleusercontent)%7C%5C.(png%7Cjpe%3Fg%7Cgif%7Cwebp%7Csvg%7Cico)(%5C%3F%7C%24))%2Fi%3B%0Afunction%20nouveauResultat()%20%7B%0Areturn%20%7B%20plateforme%3A%20%22%22%2C%20prompts%3A%20%5B%5D%2C%20fanout%3A%20%5B%5D%2C%20consultees%3A%20%5B%5D%2C%20citees%3A%20%5B%5D%2C%20_vus%3A%20%7B%7D%20%7D%3B%0A%7D%0Afunction%20ajouteRequete(res%2C%20q)%20%7B%0Aq%20%3D%20(q%20%7C%7C%20%22%22).trim()%3B%0Aif%20(q%20%26%26%20!res._vus%5B%22q%22%20%2B%20q%5D)%20%7B%20res._vus%5B%22q%22%20%2B%20q%5D%20%3D%201%3B%20res.fanout.push(q)%3B%20%7D%0A%7D%0Afunction%20ajouteSource(res%2C%20liste%2C%20url%2C%20titre)%20%7B%0Aif%20(!url%20%7C%7C%20!%2F%5Ehttps%3F%3A%5C%2F%5C%2F%2F.test(url)%20%7C%7C%20IGNORER.test(url))%20return%3B%0Aurl%20%3D%20sansSuivi(url)%3B%0Avar%20cle%20%3D%20liste%20%2B%20url%3B%0Aif%20(res._vus%5Bcle%5D)%20%7B%0Avar%20deja%20%3D%20res%5Bliste%5D.filter(function%20(s)%20%7B%20return%20s.url%20%3D%3D%3D%20url%3B%20%7D)%5B0%5D%3B%0Aif%20(deja%20%26%26%20!deja.titre%20%26%26%20titre)%20deja.titre%20%3D%20titre%3B%0Areturn%3B%0A%7D%0Ares._vus%5Bcle%5D%20%3D%201%3B%0Ares%5Bliste%5D.push(%7B%20domaine%3A%20domaine(url)%2C%20titre%3A%20(titre%20%7C%7C%20%22%22).replace(%2F%5Cs%2B%2Fg%2C%20%22%20%22).trim()%2C%20url%3A%20url%20%7D)%3B%0A%7D%0Afunction%20objetsJSON(texte)%20%7B%0Avar%20objets%20%3D%20%5B%5D%3B%0Avar%20t%20%3D%20texte.trim()%3B%0Aif%20(t%5B0%5D%20%3D%3D%3D%20%22%7B%22%20%7C%7C%20t%5B0%5D%20%3D%3D%3D%20%22%5B%22)%20%7B%20try%20%7B%20objets.push(JSON.parse(t))%3B%20return%20objets%3B%20%7D%20catch%20(e)%20%7B%7D%20%7D%0At.split(%2F%5Cr%3F%5Cn%2F).forEach(function%20(ligne)%20%7B%0Aligne%20%3D%20ligne.trim()%3B%0Aif%20(ligne.indexOf(%22data%3A%22)%20%3D%3D%3D%200)%20ligne%20%3D%20ligne.slice(5).trim()%3B%0Aif%20(ligne%5B0%5D%20!%3D%3D%20%22%7B%22%20%26%26%20ligne%5B0%5D%20!%3D%3D%20%22%5B%22)%20return%3B%0Atry%20%7B%20objets.push(JSON.parse(ligne))%3B%20%7D%20catch%20(e)%20%7B%7D%0A%7D)%3B%0Areturn%20objets%3B%0A%7D%0Afunction%20parcourtChatGPT(x%2C%20chemin%2C%20res)%20%7B%0Aif%20(Array.isArray(x))%20%7B%20x.forEach(function%20(v)%20%7B%20parcourtChatGPT(v%2C%20chemin%2C%20res)%3B%20%7D)%3B%20return%3B%20%7D%0Aif%20(!x%20%7C%7C%20typeof%20x%20!%3D%3D%20%22object%22)%20return%3B%0Aif%20(typeof%20x.p%20%3D%3D%3D%20%22string%22%20%26%26%20%22v%22%20in%20x)%20%7B%20parcourtChatGPT(x.v%2C%20chemin%20%2B%20x.p%2C%20res)%3B%20%7D%0Aif%20(x.type%20%3D%3D%3D%20%22search_model_queries%22%20%26%26%20Array.isArray(x.queries))%20x.queries.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20typeof%20q%20%3D%3D%3D%20%22string%22%20%3F%20q%20%3A%20q%20%26%26%20(q.q%20%7C%7C%20q.query))%3B%20%7D)%3B%0Aif%20(Array.isArray(x.search_queries))%20x.search_queries.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20typeof%20q%20%3D%3D%3D%20%22string%22%20%3F%20q%20%3A%20q%20%26%26%20(q.q%20%7C%7C%20q.query))%3B%20%7D)%3B%0Aif%20(%2Fsearch_model_queries%7Csearch_queries%2F.test(chemin)%20%26%26%20typeof%20x.q%20%3D%3D%3D%20%22string%22)%20ajouteRequete(res%2C%20x.q)%3B%0Aif%20(%2Fsearch_model_queries%5C%2Fqueries%2F.test(chemin)%20%26%26%20Array.isArray(x))%20x.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20q)%3B%20%7D)%3B%0Aif%20(x.author%20%26%26%20x.author.role%20%3D%3D%3D%20%22user%22%20%26%26%20x.content%20%26%26%20Array.isArray(x.content.parts))%20%7B%0Ax.content.parts.forEach(function%20(p)%20%7B%20if%20(typeof%20p%20%3D%3D%3D%20%22string%22%20%26%26%20p.trim()%20%26%26%20res.prompts.indexOf(p.trim())%20%3C%200)%20res.prompts.push(p.trim())%3B%20%7D)%3B%0A%7D%0Aif%20(typeof%20x.url%20%3D%3D%3D%20%22string%22)%20%7B%0Aif%20(%2Fsearch_result_groups%7CsearchSources%2F.test(chemin))%20ajouteSource(res%2C%20%22consultees%22%2C%20x.url%2C%20x.title%20%7C%7C%20x.attribution)%3B%0Aelse%20if%20(%2Fcontent_references%7Creferences%7Ccitations%7Csources_footnote%2F.test(chemin))%20ajouteSource(res%2C%20%22citees%22%2C%20x.url%2C%20x.title%20%7C%7C%20x.source_label%20%7C%7C%20x.attribution)%3B%0A%7D%0AObject.keys(x).forEach(function%20(k)%20%7B%0Aif%20(k%20%3D%3D%3D%20%22v%22%20%26%26%20typeof%20x.p%20%3D%3D%3D%20%22string%22)%20return%3B%0Avar%20v%20%3D%20x%5Bk%5D%3B%0Aif%20(v%20%26%26%20typeof%20v%20%3D%3D%3D%20%22object%22)%20parcourtChatGPT(v%2C%20chemin%20%2B%20%22%2F%22%20%2B%20k%2C%20res)%3B%0Aelse%20if%20(k%20%3D%3D%3D%20%22queries%22%20%26%26%20Array.isArray(v))%20v.forEach(function%20(q)%20%7B%20ajouteRequete(res%2C%20q)%3B%20%7D)%3B%0A%7D)%3B%0Aif%20(typeof%20x.p%20%3D%3D%3D%20%22string%22%20%26%26%20%2Fsearch_model_queries%2F.test(x.p)%20%26%26%20Array.isArray(x.v))%20x.v.forEach(function%20(q)%20%7B%20if%20(typeof%20q%20%3D%3D%3D%20%22string%22)%20ajouteRequete(res%2C%20q)%3B%20%7D)%3B%0A%7D%0Afunction%20decodeChatGPT(texte%2C%20res)%20%7B%0Ares.plateforme%20%3D%20res.plateforme%20%7C%7C%20%22ChatGPT%22%3B%0AobjetsJSON(texte).forEach(function%20(o)%20%7B%20parcourtChatGPT(o%2C%20%22%22%2C%20res)%3B%20%7D)%3B%0Ares.citees.forEach(function%20(s)%20%7B%20if%20(!res._vus%5B%22consultees%22%20%2B%20s.url%5D)%20ajouteSource(res%2C%20%22consultees%22%2C%20s.url%2C%20s.titre)%3B%20%7D)%3B%0A%7D%0Afunction%20base64EnOctets(s)%20%7B%0As%20%3D%20s.replace(%2F-%2Fg%2C%20%22%2B%22).replace(%2F_%2Fg%2C%20%22%2F%22)%3B%0Awhile%20(s.length%20%25%204)%20s%20%2B%3D%20%22%3D%22%3B%0Avar%20bin%20%3D%20atob(s)%2C%20o%20%3D%20new%20Uint8Array(bin.length)%3B%0Afor%20(var%20i%20%3D%200%3B%20i%20%3C%20bin.length%3B%20i%2B%2B)%20o%5Bi%5D%20%3D%20bin.charCodeAt(i)%3B%0Areturn%20o%3B%0A%7D%0Avar%20utf8%20%3D%20typeof%20TextDecoder%20!%3D%3D%20%22undefined%22%20%3F%20new%20TextDecoder(%22utf-8%22%2C%20%7B%20fatal%3A%20true%20%7D)%20%3A%20null%3B%0Afunction%20protobuf(b%2C%20prof)%20%7B%0Avar%20p%20%3D%200%2C%20champs%20%3D%20%5B%5D%3B%0Afunction%20varint()%20%7B%0Avar%20r%20%3D%200%2C%20m%20%3D%201%2C%20c%3B%0Ado%20%7B%20if%20(p%20%3E%3D%20b.length)%20throw%20new%20Error(%22fin%22)%3B%20c%20%3D%20b%5Bp%2B%2B%5D%3B%20r%20%2B%3D%20(c%20%26%20127)%20*%20m%3B%20m%20*%3D%20128%3B%20%7D%20while%20(c%20%26%20128)%3B%0Areturn%20r%3B%0A%7D%0Awhile%20(p%20%3C%20b.length)%20%7B%0Avar%20cle%20%3D%20varint()%2C%20champ%20%3D%20Math.floor(cle%20%2F%208)%2C%20type%20%3D%20cle%20%25%208%3B%0Aif%20(champ%20%3D%3D%3D%200)%20throw%20new%20Error(%22champ%22)%3B%0Aif%20(type%20%3D%3D%3D%200)%20champs.push(%5Bchamp%2C%20varint()%5D)%3B%0Aelse%20if%20(type%20%3D%3D%3D%201)%20p%20%2B%3D%208%3B%0Aelse%20if%20(type%20%3D%3D%3D%205)%20p%20%2B%3D%204%3B%0Aelse%20if%20(type%20%3D%3D%3D%202)%20%7B%0Avar%20n%20%3D%20varint()%2C%20sous%20%3D%20b.subarray(p%2C%20p%20%2B%20n)%3B%0Ap%20%2B%3D%20n%3B%0Aif%20(p%20%3E%20b.length)%20throw%20new%20Error(%22longueur%22)%3B%0Avar%20v%20%3D%20null%3B%0Aif%20(prof%20%3C%2040%20%26%26%20n)%20%7B%20try%20%7B%20v%20%3D%20protobuf(sous%2C%20prof%20%2B%201)%3B%20%7D%20catch%20(e)%20%7B%20v%20%3D%20null%3B%20%7D%20%7D%0Aif%20(v%20%3D%3D%3D%20null)%20%7B%20try%20%7B%20v%20%3D%20utf8.decode(sous)%3B%20%7D%20catch%20(e)%20%7B%20v%20%3D%20%22%22%3B%20%7D%20%7D%0Achamps.push(%5Bchamp%2C%20v%5D)%3B%0A%7D%20else%20throw%20new%20Error(%22type%22)%3B%0A%7D%0Areturn%20champs%3B%0A%7D%0Afunction%20parcourtGemini(noeud%2C%20res)%20%7B%0Aif%20(!Array.isArray(noeud))%20return%3B%0Avar%20s%20%3D%20%7B%7D%3B%0Anoeud.forEach(function%20(c)%20%7B%20if%20(typeof%20c%5B1%5D%20%3D%3D%3D%20%22string%22%20%26%26%20!(c%5B0%5D%20in%20s))%20s%5Bc%5B0%5D%5D%20%3D%20c%5B1%5D%3B%20%7D)%3B%0Avar%20estURL%20%3D%20function%20(x)%20%7B%20return%20typeof%20x%20%3D%3D%3D%20%22string%22%20%26%26%20%2F%5Ehttps%3F%3A%5C%2F%5C%2F%2F.test(x)%3B%20%7D%3B%0Aif%20(estURL(s%5B1%5D)%20%26%26%20%2Fgstatic%5C.com%5C%2Ffavicon%2F.test(s%5B1%5D)%20%26%26%20estURL(s%5B2%5D)%20%26%26%20s%5B3%5D)%20ajouteSource(res%2C%20%22consultees%22%2C%20s%5B2%5D%2C%20s%5B3%5D)%3B%0Aelse%20if%20(estURL(s%5B1%5D)%20%26%26%20!%2Fgstatic%7Cgoogleusercontent%7Cgoogle%5C.com%5C%2Fmaps%2F.test(s%5B1%5D)%20%26%26%20s%5B2%5D%20%26%26%20!estURL(s%5B2%5D))%20ajouteSource(res%2C%20%22citees%22%2C%20s%5B1%5D%2C%20s%5B2%5D%20%2B%20(s%5B7%5D%20%3F%20%22%20%C2%B7%20%22%20%2B%20s%5B7%5D%20%3A%20%22%22))%3B%0Anoeud.forEach(function%20(c)%20%7B%20if%20(Array.isArray(c%5B1%5D))%20parcourtGemini(c%5B1%5D%2C%20res)%3B%20%7D)%3B%0A%7D%0Afunction%20decodeGemini(texte%2C%20res)%20%7B%0Ares.plateforme%20%3D%20res.plateforme%20%7C%7C%20%22Gemini%22%3B%0Avar%20trames%20%3D%20texte.match(%2F%5C%5B%5C%5B%5Cd%2B%2C%5C%5B%22%5BA-Za-z0-9%2B%5C%2F%3D_-%5D%7B8%2C%7D%22%5C%5D%5C%5D%5C%5D%2Fg)%20%7C%7C%20%5B%5D%3B%0Atrames.forEach(function%20(t)%20%7B%0Avar%20b64%20%3D%20t.slice(t.indexOf('%5B%22')%20%2B%202%2C%20t.lastIndexOf('%22%5D'))%3B%0Atry%20%7B%20parcourtGemini(protobuf(base64EnOctets(b64)%2C%200)%2C%20res)%3B%20%7D%20catch%20(e)%20%7B%7D%0A%7D)%3B%0Ares.citees.forEach(function%20(s)%20%7B%20if%20(!res._vus%5B%22consultees%22%20%2B%20s.url%5D)%20ajouteSource(res%2C%20%22consultees%22%2C%20s.url%2C%20s.titre.split(%22%20%C2%B7%20%22)%5B0%5D)%3B%20%7D)%3B%0A%7D%0Afunction%20analyse(texte)%20%7B%0Avar%20res%20%3D%20nouveauResultat()%3B%0Avar%20t%20%3D%20(texte%20%7C%7C%20%22%22).trim()%3B%0Avar%20har%20%3D%20null%3B%0Aif%20(t%5B0%5D%20%3D%3D%3D%20%22%7B%22%20%26%26%20t.indexOf('%22log%22')%20%3E%3D%200)%20%7B%20try%20%7B%20har%20%3D%20JSON.parse(t)%3B%20%7D%20catch%20(e)%20%7B%20har%20%3D%20null%3B%20%7D%20%7D%0Aif%20(har%20%26%26%20har.log%20%26%26%20Array.isArray(har.log.entries))%20%7B%0Ahar.log.entries.forEach(function%20(e)%20%7B%0Avar%20url%20%3D%20(e.request%20%26%26%20e.request.url)%20%7C%7C%20%22%22%2C%20c%20%3D%20(e.response%20%26%26%20e.response.content)%20%7C%7C%20%7B%7D%3B%0Avar%20corps%20%3D%20c.text%20%7C%7C%20%22%22%3B%0Aif%20(!corps)%20return%3B%0Aif%20(c.encoding%20%3D%3D%3D%20%22base64%22)%20%7B%20try%20%7B%20corps%20%3D%20new%20TextDecoder(%22utf-8%22).decode(base64EnOctets(corps))%3B%20%7D%20catch%20(x)%20%7B%20return%3B%20%7D%20%7D%0Aif%20(%2FprocessSession%7CStreamGenerate%2F.test(url))%20decodeGemini(corps%2C%20res)%3B%0Aelse%20if%20(%2Fchatgpt%5C.com%5C%2F(backend-api%7Cbackend-anon%7Cunauth-mweb)%5C%2F.*conversation%2F.test(url))%20decodeChatGPT(corps%2C%20res)%3B%0A%7D)%3B%0A%7D%20else%20if%20(%2F%5C%5B%5C%5B%5Cd%2B%2C%5C%5B%22%5BA-Za-z0-9%2B%5C%2F%3D_-%5D%7B8%2C%7D%22%5C%5D%5C%5D%5C%5D%2F.test(t))%20decodeGemini(t%2C%20res)%3B%0Aelse%20decodeChatGPT(t%2C%20res)%3B%0Adelete%20res._vus%3B%0Areturn%20res%3B%0A%7D%0Afunction%20versTSV(res)%20%7B%0Avar%20l%20%3D%20%5B%22Type%5CtDomaine%5CtTitre%5CtURL%22%5D%3B%0Ares.fanout.forEach(function%20(q)%20%7B%20l.push(%22Fan-out%5Ct%5Ct%22%20%2B%20q.replace(%2F%5Ct%2Fg%2C%20%22%20%22)%20%2B%20%22%5Ct%22)%3B%20%7D)%3B%0Ares.citees.forEach(function%20(s)%20%7B%20l.push(%22Source%20cit%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre.replace(%2F%5Ct%2Fg%2C%20%22%20%22)%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Ares.consultees.forEach(function%20(s)%20%7B%20l.push(%22Source%20consult%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre.replace(%2F%5Ct%2Fg%2C%20%22%20%22)%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Areturn%20l.join(%22%5Cn%22)%3B%0A%7D%0Aracine.DecodeurGEO%20%3D%20%7B%20analyse%3A%20analyse%2C%20versTSV%3A%20versTSV%2C%20decodeChatGPT%3A%20decodeChatGPT%2C%20decodeGemini%3A%20decodeGemini%2C%20nouveauResultat%3A%20nouveauResultat%20%7D%3B%0A%7D)(typeof%20window%20!%3D%3D%20%22undefined%22%20%3F%20window%20%3A%20globalThis)%3B%0A(function%20()%20%7B%0A%22use%20strict%22%3B%0Aif%20(window.__captureGEO)%20%7B%20window.__captureGEO.montrer()%3B%20return%3B%20%7D%0Avar%20D%20%3D%20window.DecodeurGEO%3B%0Avar%20PERTINENT%20%3D%20%2F%5C%2F(backend-api%7Cbackend-anon)%5C%2F(f%5C%2F%7Cfc%5C%2F)%3Fconversation%7C%5C%2Funauth-mweb%5C%2Fconversation%7CprocessSession%7CStreamGenerate%2F%3B%0Avar%20flux%20%3D%20%5B%5D%3B%0Avar%20minuterie%20%3D%20null%2C%20calme%20%3D%20null%2C%20derniereDonnee%20%3D%200%3B%0Afunction%20maj()%20%7B%0AderniereDonnee%20%3D%20Date.now()%3B%0AclearTimeout(minuterie)%3B%20minuterie%20%3D%20setTimeout(rendu%2C%20400)%3B%0AclearTimeout(calme)%3B%20calme%20%3D%20setTimeout(rendu%2C%203200)%3B%0A%7D%0Avar%20fetch0%20%3D%20window.fetch%3B%0Awindow.fetch%20%3D%20function%20()%20%7B%0Avar%20args%20%3D%20arguments%3B%0Areturn%20fetch0.apply(this%2C%20args).then(function%20(rep)%20%7B%0Atry%20%7B%0Avar%20url%20%3D%20rep.url%20%7C%7C%20(args%5B0%5D%20%26%26%20args%5B0%5D.url)%20%7C%7C%20String(args%5B0%5D)%3B%0Aif%20(PERTINENT.test(url))%20%7B%0Avar%20e%20%3D%20%7B%20url%3A%20url%2C%20texte%3A%20%22%22%2C%20fini%3A%20false%20%7D%3B%0Aflux.push(e)%3B%20maj()%3B%0Arep.clone().text().then(function%20(t)%20%7B%20e.texte%20%3D%20t%3B%20e.fini%20%3D%20true%3B%20maj()%3B%20%7D%2C%20function%20()%20%7B%20e.fini%20%3D%20true%3B%20maj()%3B%20%7D)%3B%0A%7D%0A%7D%20catch%20(x)%20%7B%7D%0Areturn%20rep%3B%0A%7D)%3B%0A%7D%3B%0Avar%20open0%20%3D%20XMLHttpRequest.prototype.open%2C%20send0%20%3D%20XMLHttpRequest.prototype.send%3B%0AXMLHttpRequest.prototype.open%20%3D%20function%20(m%2C%20u)%20%7B%20this.__urlGEO%20%3D%20String(u)%3B%20return%20open0.apply(this%2C%20arguments)%3B%20%7D%3B%0AXMLHttpRequest.prototype.send%20%3D%20function%20()%20%7B%0Avar%20x%20%3D%20this%3B%0Aif%20(PERTINENT.test(x.__urlGEO%20%7C%7C%20%22%22))%20%7B%0Aif%20(x.__entreeGEO)%20x.__entreeGEO.fini%20%3D%20true%3B%0Avar%20e%20%3D%20%7B%20url%3A%20x.__urlGEO%2C%20texte%3A%20%22%22%2C%20fini%3A%20false%20%7D%3B%0Ax.__entreeGEO%20%3D%20e%3B%0Aflux.push(e)%3B%0Aif%20(!x.__ecouteGEO)%20%7B%0Ax.__ecouteGEO%20%3D%20true%3B%0Ax.addEventListener(%22readystatechange%22%2C%20function%20()%20%7B%0Avar%20c%20%3D%20x.__entreeGEO%3B%0Aif%20(!c%20%7C%7C%20x.readyState%20%3C%203)%20return%3B%0Atry%20%7B%20if%20(x.responseText)%20c.texte%20%3D%20x.responseText%3B%20%7D%20catch%20(z)%20%7B%7D%0Aif%20(x.readyState%20%3D%3D%3D%204)%20c.fini%20%3D%20true%3B%0Amaj()%3B%0A%7D)%3B%0A%7D%0A%7D%0Areturn%20send0.apply(this%2C%20arguments)%3B%0A%7D%3B%0Afunction%20resultat()%20%7B%0Avar%20r%20%3D%20%7B%20plateforme%3A%20%2Fgemini%2F.test(location.host)%20%3F%20%22Gemini%22%20%3A%20%22ChatGPT%22%2C%20fanout%3A%20%5B%5D%2C%20citees%3A%20%5B%5D%2C%20consultees%3A%20%5B%5D%20%7D%3B%0Avar%20vus%20%3D%20%7B%7D%3B%0Aflux.forEach(function%20(e)%20%7B%0Aif%20(!e.texte)%20return%3B%0Avar%20x%20%3D%20D.analyse(e.texte)%3B%0Ax.fanout.forEach(function%20(q)%20%7B%20if%20(!vus%5B%22q%22%20%2B%20q%5D)%20%7B%20vus%5B%22q%22%20%2B%20q%5D%20%3D%201%3B%20r.fanout.push(q)%3B%20%7D%20%7D)%3B%0A%5B%22citees%22%2C%20%22consultees%22%5D.forEach(function%20(l)%20%7B%0Ax%5Bl%5D.forEach(function%20(s)%20%7B%20if%20(!vus%5Bl%20%2B%20s.url%5D)%20%7B%20vus%5Bl%20%2B%20s.url%5D%20%3D%201%3B%20r%5Bl%5D.push(s)%3B%20%7D%20%7D)%3B%0A%7D)%3B%0A%7D)%3B%0Areturn%20r%3B%0A%7D%0Avar%20C%20%3D%20%7B%20navy%3A%20%22%230A3856%22%2C%20orange%3A%20%22%23E9540D%22%2C%20doux%3A%20%22%23445A6E%22%2C%20carte%3A%20%22%23F3F6F9%22%2C%20filet%3A%20%22%23D5DCE3%22%20%7D%3B%0Afunction%20el(tag%2C%20style%2C%20texte)%20%7B%0Avar%20n%20%3D%20document.createElement(tag)%3B%0Aif%20(style)%20n.setAttribute(%22style%22%2C%20style)%3B%0Aif%20(texte%20!%3D%20null)%20n.textContent%20%3D%20texte%3B%0Areturn%20n%3B%0A%7D%0Avar%20panneau%20%3D%20el(%22div%22%2C%20%22position%3Afixed%3Btop%3A72px%3Bright%3A16px%3Bwidth%3A380px%3Bmax-height%3A72vh%3Boverflow%3Aauto%3Bz-index%3A2147483647%3Bbackground%3A%23fff%3Bcolor%3A%22%20%2B%20C.navy%20%2B%0A%22%3Bborder%3A1px%20solid%20%22%20%2B%20C.filet%20%2B%20%22%3Bborder-radius%3A12px%3Bbox-shadow%3A0%208px%2028px%20rgba(10%2C56%2C86%2C.25)%3Bfont%3A13px%2F1.45%20system-ui%2C-apple-system%2CSegoe%20UI%2CArial%2Csans-serif%3Bpadding%3A14px%2016px%3Btext-align%3Aleft%22)%3B%0Avar%20tete%20%3D%20el(%22div%22%2C%20%22display%3Aflex%3Balign-items%3Acenter%3Bgap%3A8px%3Bmargin-bottom%3A8px%22)%3B%0Atete.appendChild(el(%22strong%22%2C%20%22font-size%3A14px%3Bflex%3A1%22%2C%20%22Capture%20GEO%22))%3B%0Afunction%20bouton(texte%2C%20action%2C%20principal)%20%7B%0Avar%20b%20%3D%20el(%22button%22%2C%20%22border%3A0%3Bborder-radius%3A6px%3Bpadding%3A5px%2010px%3Bfont%3A600%2012px%20system-ui%2CArial%2Csans-serif%3Bcursor%3Apointer%3B%22%20%2B%0A(principal%20%3F%20%22background%3A%22%20%2B%20C.navy%20%2B%20%22%3Bcolor%3A%23fff%22%20%3A%20%22background%3A%22%20%2B%20C.carte%20%2B%20%22%3Bcolor%3A%22%20%2B%20C.navy)%2C%20texte)%3B%0Ab.type%20%3D%20%22button%22%3B%0Ab.addEventListener(%22click%22%2C%20action)%3B%0Areturn%20b%3B%0A%7D%0Avar%20copier%20%3D%20bouton(%22Copier%20pour%20Excel%22%2C%20function%20()%20%7B%0Avar%20r%20%3D%20resultat()%3B%0Avar%20l%20%3D%20%5B%22Type%5CtDomaine%5CtTitre%5CtURL%22%5D%3B%0Ar.fanout.forEach(function%20(q)%20%7B%20l.push(%22Fan-out%5Ct%5Ct%22%20%2B%20q%20%2B%20%22%5Ct%22)%3B%20%7D)%3B%0Ar.citees.forEach(function%20(s)%20%7B%20l.push(%22Source%20cit%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Ar.consultees.forEach(function%20(s)%20%7B%20l.push(%22Source%20consult%C3%A9e%5Ct%22%20%2B%20s.domaine%20%2B%20%22%5Ct%22%20%2B%20s.titre%20%2B%20%22%5Ct%22%20%2B%20s.url)%3B%20%7D)%3B%0Avar%20fini%20%3D%20function%20()%20%7B%20copier.textContent%20%3D%20%22Copi%C3%A9%20!%22%3B%20setTimeout(function%20()%20%7B%20copier.textContent%20%3D%20%22Copier%20pour%20Excel%22%3B%20%7D%2C%201500)%3B%20%7D%3B%0Avar%20zone%20%3D%20el(%22textarea%22%2C%20%22position%3Afixed%3Bleft%3A-9999px%22)%3B%0Azone.value%20%3D%20l.join(%22%5Cn%22)%3B%0Adocument.body.appendChild(zone)%3B%20zone.select()%3B%0Atry%20%7B%20document.execCommand(%22copy%22)%3B%20fini()%3B%20%7D%20catch%20(x)%20%7B%7D%0Azone.remove()%3B%0A%7D%2C%20true)%3B%0Atete.appendChild(copier)%3B%0Atete.appendChild(bouton(%22Effacer%22%2C%20function%20()%20%7B%20flux.length%20%3D%200%3B%20rendu()%3B%20%7D))%3B%0Atete.appendChild(bouton(%22%C3%97%22%2C%20function%20()%20%7B%20panneau.style.display%20%3D%20%22none%22%3B%20%7D))%3B%0Apanneau.appendChild(tete)%3B%0Avar%20corps%20%3D%20el(%22div%22)%3B%0Apanneau.appendChild(corps)%3B%0Adocument.body.appendChild(panneau)%3B%0Afunction%20section(titre%2C%20n)%20%7B%0Avar%20s%20%3D%20el(%22div%22%2C%20%22margin-top%3A10px%22)%3B%0As.appendChild(el(%22div%22%2C%20%22font-weight%3A700%3Bcolor%3A%22%20%2B%20C.orange%20%2B%20%22%3Bfont-size%3A11px%3Bletter-spacing%3A.05em%3Btext-transform%3Auppercase%3Bmargin-bottom%3A4px%22%2C%20titre%20%2B%20%22%20(%22%20%2B%20n%20%2B%20%22)%22))%3B%0Acorps.appendChild(s)%3B%0Areturn%20s%3B%0A%7D%0Afunction%20rendu()%20%7B%0Awhile%20(corps.firstChild)%20corps.removeChild(corps.firstChild)%3B%0Avar%20r%20%3D%20resultat()%3B%0Avar%20enCours%20%3D%20flux.some(function%20(e)%20%7B%20return%20!e.fini%3B%20%7D)%20%26%26%20Date.now()%20-%20derniereDonnee%20%3C%203000%3B%0Avar%20etat%20%3D%20!flux.length%20%3F%20%22Posez%20votre%20question%20%3A%20la%20capture%20commence.%22%20%3A%20enCours%20%3F%20%22R%C3%A9ponse%20en%20cours%20de%20r%C3%A9ception%E2%80%A6%22%20%3A%20%22R%C3%A9ponse%20re%C3%A7ue.%22%3B%0Acorps.appendChild(el(%22div%22%2C%20%22color%3A%22%20%2B%20C.doux%2C%20r.plateforme%20%2B%20%22%20%C2%B7%20%22%20%2B%20etat))%3B%0Avar%20f%20%3D%20section(%22Fan-out%22%2C%20r.fanout.length)%3B%0Aif%20(!r.fanout.length)%20f.appendChild(el(%22div%22%2C%20%22color%3A%22%20%2B%20C.doux%20%2B%20%22%3Bfont-size%3A12px%22%2C%0Aflux.length%20%3F%20%22Aucun%20fan-out%20transmis.%20Sans%20compte%2C%20ChatGPT%20et%20Gemini%20ne%20les%20envoient%20pas%20%3A%20connectez-vous%20%C3%A0%20ChatGPT%20pour%20les%20voir.%22%20%3A%20%22En%20attente.%22))%3B%0Ar.fanout.forEach(function%20(q)%20%7B%20f.appendChild(el(%22div%22%2C%20%22padding%3A3px%200%3Bborder-bottom%3A1px%20solid%20%22%20%2B%20C.carte%2C%20q))%3B%20%7D)%3B%0A%5B%5B%22Sources%20cit%C3%A9es%22%2C%20r.citees%5D%2C%20%5B%22Sources%20consult%C3%A9es%22%2C%20r.consultees%5D%5D.forEach(function%20(p)%20%7B%0Avar%20s%20%3D%20section(p%5B0%5D%2C%20p%5B1%5D.length)%3B%0Ap%5B1%5D.forEach(function%20(x)%20%7B%0Avar%20a%20%3D%20el(%22a%22%2C%20%22display%3Ablock%3Bpadding%3A3px%200%3Bborder-bottom%3A1px%20solid%20%22%20%2B%20C.carte%20%2B%20%22%3Bcolor%3A%22%20%2B%20C.navy%20%2B%20%22%3Btext-decoration%3Anone%22)%3B%0Aa.href%20%3D%20x.url%3B%20a.target%20%3D%20%22_blank%22%3B%20a.rel%20%3D%20%22noopener%22%3B%0Aa.appendChild(el(%22span%22%2C%20%22font-weight%3A600%22%2C%20x.domaine%20%2B%20%22%20%22))%3B%0Aa.appendChild(el(%22span%22%2C%20%22color%3A%22%20%2B%20C.doux%2C%20x.titre))%3B%0As.appendChild(a)%3B%0A%7D)%3B%0A%7D)%3B%0A%7D%0Arendu()%3B%0Awindow.__captureGEO%20%3D%20%7B%20resultat%3A%20resultat%2C%20montrer%3A%20function%20()%20%7B%20panneau.style.display%20%3D%20%22block%22%3B%20rendu()%3B%20%7D%2C%20flux%3A%20flux%20%7D%3B%0A%7D)()%3B%0A%7D)()%3Bvoid%200</pre></div>
+      </details>
+    </div>
+    <details class="a-la-main" id="bloc-secours"><summary>Le favori ne fonctionne pas&nbsp;?</summary>
+      <ol class="consignes">
+        <li>Sur ChatGPT, appuyez sur <span class="bouton-ui">F12</span>, ouvrez l'onglet <span class="bouton-ui">Réseau</span>, puis posez votre prompt.</li>
+        <li>Tapez <b>conversation</b> dans le filtre. Clic droit sur la dernière ligne, puis copiez la réponse.</li>
+        <li>Collez-la ci-dessous, puis cliquez sur <span class="bouton-ui">Analyser</span>.</li>
+      </ol>
+      <div class="decodeur">
+        <textarea id="d-entree" spellcheck="false" placeholder="Collez ici la réponse copiée"></textarea>
+        <div class="actions">
+          <button class="bouton-action" type="button" id="d-analyser">Analyser</button>
+          <button class="bouton-secondaire" type="button" id="d-copier" hidden>Copier pour Excel</button>
+        </div>
+        <div id="d-resultat" class="resultat" aria-live="polite"></div>
+      </div>
+    </details>
+  </div>
+</section>
+<script src="decodeur-geo.js"></script>
+<script>
+(function () {
+  function el(tag, classe, texte) { var n = document.createElement(tag); if (classe) n.className = classe; if (texte != null) n.textContent = texte; return n; }
+  function vider(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  function tableau(titre, lignes, avecLien, vide) {
+    var bloc = el("div", "bloc-resultat");
+    bloc.appendChild(el("h4", null, titre + " (" + lignes.length + ")"));
+    if (!lignes.length) { bloc.appendChild(el("p", "doux", vide || "Aucune.")); return bloc; }
+    var t = el("table");
+    lignes.forEach(function (l) {
+      var tr = el("tr");
+      if (avecLien) {
+        tr.appendChild(el("td", "dom", l.domaine));
+        var td = el("td"), a = el("a", null, l.titre || l.url);
+        a.href = l.url; a.target = "_blank"; a.rel = "noopener";
+        td.appendChild(a); tr.appendChild(td);
+      } else { tr.appendChild(el("td", null, l)); }
+      t.appendChild(tr);
+    });
+    bloc.appendChild(t);
+    return bloc;
+  }
+  function copierTexte(bouton, texte) {
+    var libelle = bouton.textContent;
+    var fait = function () { bouton.textContent = "Copié"; setTimeout(function () { bouton.textContent = libelle; }, 1800); };
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(texte).then(fait); return; }
+    var zone = el("textarea"); zone.value = texte; zone.style.position = "fixed"; zone.style.left = "-9999px";
+    document.body.appendChild(zone); zone.select(); document.execCommand("copy"); zone.remove(); fait();
+  }
+
+  // Choix du besoin et de l'IA : une seule méthode affichée. Le module, le favori et le secours sont rangés dans la réserve
+  // et placés dans la méthode affichée.
+  var choix = { besoin: null, ia: null };
+  try { var garde = JSON.parse(localStorage.getItem("analyse-choix")); if (garde) choix = garde; } catch (e) {}
+  var reserve = document.getElementById("reserve"), blocModule = document.getElementById("fanout-gemini");
+  var blocFavori = document.getElementById("bloc-favori"), blocSecours = document.getElementById("bloc-secours");
+  function appliquer() {
+    [].forEach.call(document.querySelectorAll("#choix .pilule"), function (b) {
+      var k = b.hasAttribute("data-besoin") ? "besoin" : "ia";
+      b.setAttribute("aria-pressed", String(choix[k] === b.getAttribute("data-" + k)));
+    });
+    var cle = choix.besoin && choix.ia ? choix.besoin + "-" + choix.ia : "";
+    reserve.appendChild(blocModule); reserve.appendChild(blocFavori); reserve.appendChild(blocSecours);
+    [].forEach.call(document.querySelectorAll(".methode"), function (m) {
+      m.hidden = m.getAttribute("data-methode") !== cle;
+      if (m.hidden) return;
+      var pm = m.querySelector(".place-module"), pf = m.querySelector(".place-favori"), ps = m.querySelector(".place-secours");
+      if (pm) pm.appendChild(blocModule);
+      if (pf) pf.appendChild(blocFavori);
+      if (ps) ps.appendChild(blocSecours);
+    });
+    if (dernier) afficher(dernier);
+  }
+  document.getElementById("choix").addEventListener("click", function (e) {
+    var b = e.target.closest(".pilule");
+    if (!b) return;
+    if (b.hasAttribute("data-besoin")) choix.besoin = b.getAttribute("data-besoin"); else choix.ia = b.getAttribute("data-ia");
+    try { localStorage.setItem("analyse-choix", JSON.stringify(choix)); } catch (x) {}
+    appliquer();
+  });
+
+  // Module « Fan-out Gemini » : la page appelle le relais Apps Script de la formation, qui garde la clé Gemini
+  var relais = document.getElementById("fanout-gemini").getAttribute("data-relais");
+  var fPrompt = document.getElementById("f-prompt"), fLancer = document.getElementById("f-lancer");
+  var fSortie = document.getElementById("f-resultat"), fCopier = document.getElementById("f-copier"), fDernier = [];
+  if (!relais) { fLancer.disabled = true; fSortie.appendChild(el("p", "doux", "Module en cours d'installation.")); }
+  function fAfficher(r) {
+    vider(fSortie);
+    fCopier.hidden = true;
+    if (!r || r.erreur) { fSortie.appendChild(el("p", "alerte-texte", (r && r.erreur) || "Réponse inattendue du module.")); return; }
+    fDernier = r.fanout;
+    var bloc = tableau("Fan-out", r.fanout, false, "Gemini n'a pas fait de recherche pour ce prompt. Relancez-le ou reformulez-le.");
+    if (r.fanout.length && r.pastilles) {
+      // Google impose d'afficher ses pastilles de recherche telles quelles : elles sont isolées du style de la page
+      var hote = el("div", "pastilles");
+      hote.attachShadow({ mode: "open" }).innerHTML = r.pastilles;
+      bloc.appendChild(hote);
+    }
+    fSortie.appendChild(bloc);
+    fCopier.hidden = !r.fanout.length;
+  }
+  function fLancerAnalyse() {
+    var p = fPrompt.value.trim();
+    if (!p) { fPrompt.focus(); return; }
+    fLancer.disabled = true; fCopier.hidden = true; vider(fSortie);
+    fSortie.appendChild(el("p", "doux", "Analyse en cours…"));
+    // corps en texte brut, sans en-tête : pas de pré-requête CORS, qu'Apps Script ne sait pas traiter
+    fetch(relais, { method: "POST", body: JSON.stringify({ prompt: p }) })
+      .then(function (r) { return r.json(); })
+      .then(fAfficher, function () { fAfficher({ erreur: "Le module ne répond pas. Réessayez dans un instant." }); })
+      .then(function () { fLancer.disabled = false; });
+  }
+  fLancer.addEventListener("click", fLancerAnalyse);
+  fPrompt.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey && relais) { e.preventDefault(); fLancerAnalyse(); } });
+  fCopier.addEventListener("click", function () { copierTexte(fCopier, fDernier.join("\n")); });
+
+  // Secours : décodeur de la réponse copiée dans F12, qui n'affiche que ce que le participant a choisi d'analyser
+  var entree = document.getElementById("d-entree"), sortie = document.getElementById("d-resultat");
+  var copier = document.getElementById("d-copier"), dernier = null;
+  function afficher(res) {
+    dernier = res;
+    vider(sortie);
+    var fanout = choix.besoin === "fanout";
+    var vide = fanout ? !res.fanout.length : !res.citees.length && !res.consultees.length;
+    copier.hidden = vide;
+    if (vide) {
+      sortie.appendChild(el("p", "alerte-texte", fanout && (res.citees.length || res.consultees.length) ?
+        "Aucun fan-out dans cette réponse : connectez-vous à ChatGPT, puis recommencez." :
+        "Rien trouvé : copiez la réponse de la dernière ligne « conversation » ou « updates »."));
+      return;
+    }
+    if (fanout) sortie.appendChild(tableau("Fan-out", res.fanout, false));
+    else { sortie.appendChild(tableau("Sources citées", res.citees, true)); sortie.appendChild(tableau("Sources consultées", res.consultees, true)); }
+  }
+  document.getElementById("d-analyser").addEventListener("click", function () { afficher(DecodeurGEO.analyse(entree.value)); });
+  copier.addEventListener("click", function () {
+    if (!dernier) return;
+    copierTexte(copier, choix.besoin === "fanout" ? dernier.fanout.join("\n") : DecodeurGEO.versTSV({ fanout: [], citees: dernier.citees, consultees: dernier.consultees }));
+  });
+
+  // Cliquer sur le bouton depuis cette page ne sert à rien : il s'utilise sur ChatGPT et Gemini
+  document.getElementById("lien-favori").addEventListener("click", function (e) {
+    e.preventDefault();
+    this.textContent = "Glissez-moi dans la barre de favoris";
+    var a = this; setTimeout(function () { a.textContent = "Capture GEO"; }, 2500);
+  });
+  appliquer();
+})();
+</script>
+<!-- ANALYSE FIN -->
+</main>
+</div>
+
 <footer>
   <div class="wrap">
     Page préparée par Empirik pour la formation SEO/GEO de HEC Paris. Liste des extensions validée par la DSI de HEC Paris en juillet 2026.
@@ -512,11 +774,11 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 
 (function () {
   // Onglets : #prompts ou #geo (ou une ancre à l'intérieur, dont #regex) affiche ce panneau, tout le reste affiche les outils
-  var ONGLETS = ["outils", "prompts", "geo"];
+  var ONGLETS = ["outils", "prompts", "geo", "analyse"];
   var panneaux = Array.prototype.slice.call(document.querySelectorAll("[data-panneau]"));
   var liens = Array.prototype.slice.call(document.querySelectorAll("[data-onglet]"));
   function afficher() {
-    // #outils, #prompts et #geo ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
+    // #outils, #prompts, #geo et #analyse ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
     var ancre = location.hash.slice(1);
     var cible = ancre ? document.getElementById(ancre) : null;
     var panneau = cible ? cible.closest("[data-panneau]") : null;
@@ -526,7 +788,7 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
     liens.forEach(function (a) {
       if (a.getAttribute("data-onglet") === nom) { a.setAttribute("aria-current", "page"); } else { a.removeAttribute("aria-current"); }
     });
-    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts", geo: "Formation SEO/GEO · Votre suivi GEO" };
+    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts", geo: "Formation SEO/GEO · Créer des prompts", analyse: "Formation SEO/GEO · Analyser des prompts" };
     document.title = titre[nom];
     // ancre plus précise (#prompt-plan) : le navigateur a défilé avant le masquage de l'autre panneau, on refait le défilement
     if (cible && !onglet) { setTimeout(function () { cible.scrollIntoView(); }, 0); }
