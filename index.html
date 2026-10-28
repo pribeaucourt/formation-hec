@@ -138,7 +138,7 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
     <nav class="onglets" aria-label="Sections de la page">
       <a href="#outils" data-onglet="outils">Outils</a>
       <a href="#prompts" data-onglet="prompts">Prompts</a>
-      <a href="#regex" data-onglet="regex">Regex</a>
+      <a href="#geo" data-onglet="geo">GEO</a>
     </nav>
   </div>
 </header>
@@ -427,10 +427,10 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 </main>
 </div>
 
-<div class="panneau" data-panneau="regex">
+<div class="panneau" data-panneau="geo">
 <main class="wrap">
-<!-- REGEX DEBUT -->
-<section>
+<!-- GEO DEBUT -->
+<section id="regex">
   <h2>Les regex de la Search Console</h2>
   <p>Pour isoler, dans la Search Console, les recherches tapées comme une question ou comme une demande faite à une IA&nbsp;: «&nbsp;comment…&nbsp;», «&nbsp;quel…&nbsp;», «&nbsp;écris…&nbsp;», «&nbsp;peux-tu…&nbsp;».</p>
   <h3>Dans la Search Console</h3>
@@ -451,7 +451,26 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
   <div class="cadre regex"><button class="copier" type="button" data-cible="t-regex-en">Copier</button><pre id="t-regex-en">(?i)^((please|pls|plz|write|draft|generate|summarize|rewrite|rephrase|translate|explain|compare|act as|pretend to be|you are (a|an)|(give|show|tell|suggest|propose|plan|find)[- ]?(me|us)|list|organize|make (it|this|them) (shorter|funnier|simpler)|suggest|estimate|optimize|find|search( for)?|(can|could|would)[- ]?you|you (can|could|would)|what (is|are|does|do|can|did|should|would)|what['’]s|what['’]re|why|how|where|when|how (much|many|long|far|often)|who|whom|whose|which|(is|are) there|(can|could|should|do|did) (we|i|you|one)|(do|did) you know|what do you (know|think)|what('s| is) (the point of|the use of))( .*)?|(it['’]s|is it|there (is|are)|are (there|these|those|you|they|we)|you (have|can|do|want|got|know)|we (can|could)|i (can|could)|do you (have|offer|do)|any (chance|idea)) .*\?|(hi|hello|hey|yo|howdy|good (morning|afternoon|evening))|((how )?are you|how('s| is) it going|how are you doing|you good|you okay)|thank(s| you)( (very much|a lot|so much|tons|a bunch))?|thx|ty|(great|awesome|cool|top|perfect|nice|ok) thanks|sorry|pardon|excuse me|my bad|shut up|stfu|shut your mouth|i hate you|you suck|you['’]re useless|you are useless|fuck (you|off)|go to hell|yes|yeah|yep|yup|ok|okay|sure|agreed|sounds good|deal|totally|exactly|correct|perfect|very well|that['’]s (good|fine|right)|both|yes both|yes please|(yes )?gladly|(yes )?go ahead|go for it|go|yes,? (the )?(prices?|rates?)|(yes|yeah|ok|okay|sure) (thanks|please|thank you|gladly)|(thanks|thank you|please) (yes|ok|sure)|(no|nah|nope)( thanks| thank you)?|cancel|stop|halt|false|that['’]s (wrong|false)|incorrect|anywhere|doesn['’]t matter|whatever|all|all of (them|it)|(yes,? )?(recommend|suggest)[- ]?(me|us)?|goodbye|bye( bye)?|see you( later)?|cya|take care|have a good (day|evening|night)|good night|done|finished|quit|exit|that['’]s (it|all)|help|options|what can you do|what do you do|restart|start over|reset|reboot|more|again|next|(the )?next one|continue|keep going|go ahead and continue|show[- ]?me|(show|display)([- ](it|them))? on (the|a) map|(display|show) (the|a) map|other( options| choices| proposals)?|something else|try again|retry|shorter|longer|fix([- ](it|this))?|correct([- ](it|this))?|what else|(is there|are there) (any )?others?|(other|more )(ideas|recommendations|options|results|places|spots|hotels|restaurants|activities|things to do)|(show|give|add|suggest)s?([- ]me)? (more|others?|the rest|again))$</pre></div>
 </article>
 </section>
-<!-- REGEX FIN -->
+
+<section id="liste-prompts">
+  <h2>Votre liste de prompts à suivre</h2>
+  <p>Récoltez les questions de votre cible dans quatre sources, puis demandez à votre IA de garder celles qui l'obligent à citer des noms d'écoles, de programmes ou d'organismes.</p>
+  <h3>Récolter les questions sur votre requête cible</h3>
+  <ol class="consignes">
+    <li><b>PAA de Google</b>&nbsp;: tapez votre requête dans Google, dépliez les <span class="bouton-ui">Autres questions posées</span> et copiez-les.</li>
+    <li><b>Reddit</b>&nbsp;: dans l'extension <a href="#outils">Reddit FAQ Finder</a>, tapez votre requête, lancez la recherche et exportez le CSV.</li>
+    <li><b>Search Console</b>&nbsp;: filtrez les requêtes avec la <a href="#regex-fr">regex en français</a>, puis <span class="bouton-ui">Exporter</span> en CSV.</li>
+    <li><b>AlsoAsked</b>&nbsp;: sur <a href="https://alsoasked.com/" target="_blank" rel="noopener">alsoasked.com</a>, tapez votre requête, lancez l'analyse et exportez le CSV.</li>
+  </ol>
+  <div class="alerte"><p><b>Règle HEC&nbsp;: un contenu interne qui n'est pas encore publié ne se soumet qu'à Copilot.</b></p><p>L'export de la Search Console de hec.edu est une donnée interne&nbsp;: envoyez-le à Copilot.</p></div>
+<article class="prompt" id="prompt-liste">
+  <p class="nom">Le prompt de la liste de prompts</p>
+  <p class="usage">Envoyez-le à votre IA avec les questions récoltées. Remplacez <mark class="var">{{mot-clé}}</mark> par votre requête cible.</p>
+  <div class="cadre"><button class="copier" type="button" data-cible="t-liste">Copier</button><pre id="t-liste">Voici des questions récoltées sur Reddit, GSC, AlsoAsked et PAA sur le mot-clé « <mark>{{mot-clé}}</mark> ». Génère une liste de prompts à surveiller dans les LLMs. Critère unique de sélection : le LLM est contraint de citer au moins un nom dans sa réponse (classements, recommandations, comparaisons). Écarte tout ce qui peut se répondre sans citer d'entité (définitions, motivations, salaires génériques). Déduplique les questions similaires issues de sources différentes en les regroupant sur une seule ligne, et cumule les sources dans la colonne Source(s). Catégorise les prompts selon le contexte, puis génère un fichier Excel : 3 colonnes (Catégorie / Prompt / Source(s)), filtre automatique, couleur par catégorie, en-tête.</pre></div>
+</article>
+  <p class="doux">Tous les prompts ne peuvent pas faire apparaître une marque&nbsp;: si la question est trop vague, trop générique ou trop éloignée de son sujet, l'IA n'a aucune raison de la citer. L'objectif est de garder les prompts où la marque est naturellement le meilleur exemple.</p>
+</section>
+<!-- GEO FIN -->
 </main>
 </div>
 
@@ -492,12 +511,12 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 })();
 
 (function () {
-  // Onglets : #prompts ou #regex (ou une ancre à l'intérieur) affiche ce panneau, tout le reste affiche les outils
-  var ONGLETS = ["outils", "prompts", "regex"];
+  // Onglets : #prompts ou #geo (ou une ancre à l'intérieur, dont #regex) affiche ce panneau, tout le reste affiche les outils
+  var ONGLETS = ["outils", "prompts", "geo"];
   var panneaux = Array.prototype.slice.call(document.querySelectorAll("[data-panneau]"));
   var liens = Array.prototype.slice.call(document.querySelectorAll("[data-onglet]"));
   function afficher() {
-    // #outils, #prompts et #regex ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
+    // #outils, #prompts et #geo ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
     var ancre = location.hash.slice(1);
     var cible = ancre ? document.getElementById(ancre) : null;
     var panneau = cible ? cible.closest("[data-panneau]") : null;
@@ -507,7 +526,7 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
     liens.forEach(function (a) {
       if (a.getAttribute("data-onglet") === nom) { a.setAttribute("aria-current", "page"); } else { a.removeAttribute("aria-current"); }
     });
-    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts", regex: "Formation SEO/GEO · Vos regex" };
+    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts", geo: "Formation SEO/GEO · Votre suivi GEO" };
     document.title = titre[nom];
     // ancre plus précise (#prompt-plan) : le navigateur a défilé avant le masquage de l'autre panneau, on refait le défilement
     if (cible && !onglet) { setTimeout(function () { cible.scrollIntoView(); }, 0); }
