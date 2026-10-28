@@ -22,7 +22,7 @@
     return { plateforme: "", prompts: [], fanout: [], consultees: [], citees: [], _vus: {} };
   }
   function ajouteRequete(res, q) {
-    q = (q || "").trim();
+    q = (typeof q === "string" ? q : "").replace(/[⁦-⁩]/g, "").trim();   // sans les marques d'isolement bidirectionnel
     if (q && !res._vus["q" + q]) { res._vus["q" + q] = 1; res.fanout.push(q); }
   }
   function ajouteSource(res, liste, url, titre) {
@@ -40,8 +40,9 @@
 
   // ---------------------------------------------------------------- ChatGPT
   // Connecté : flux SSE (lignes « data: {…} », correctifs « p / o / v »), champs search_model_queries, search_queries,
-  // search_result_groups, content_references. Déconnecté (unauth-mweb, octobre 2026) : flux ndjson, sources dans
-  // reasoning…searchSources (consultées) et content…references (citées) ; les fan-out ne sont pas transmis.
+  // search_result_groups, content_references. Depuis GPT-6.1 (relevé du 28/10/2026, compte Team) : les fan-out sont dans
+  // metadata.dil_v2_reasoning.appData.items[] (type web_search, liste « queries »). Déconnecté (unauth-mweb, octobre 2026) :
+  // flux ndjson, sources dans reasoning…searchSources (consultées) et content…references (citées) ; pas de fan-out.
   function objetsJSON(texte) {
     var objets = [];
     var t = texte.trim();
@@ -72,11 +73,16 @@
     Object.keys(x).forEach(function (k) {
       if (k === "v" && typeof x.p === "string") return;
       var v = x[k];
+      // toute liste « queries » de chaînes : search_model_queries, et dil_v2_reasoning…items[].queries depuis GPT-6.1
+      if (k === "queries" && Array.isArray(v)) v.forEach(function (q) { if (typeof q === "string") ajouteRequete(res, q); });
       if (v && typeof v === "object") parcourtChatGPT(v, chemin + "/" + k, res);
-      else if (k === "queries" && Array.isArray(v)) v.forEach(function (q) { ajouteRequete(res, q); });
     });
-    // correctifs « append » sur la liste des requêtes : v est un tableau de chaînes
-    if (typeof x.p === "string" && /search_model_queries/.test(x.p) && Array.isArray(x.v)) x.v.forEach(function (q) { if (typeof q === "string") ajouteRequete(res, q); });
+    // correctifs sur une liste de requêtes : la liste entière (v tableau), ou une requête entière ajoutée ou remplacée.
+    // Un « append » de texte sur une requête n'en est qu'un morceau : on l'ignore, la relecture de fin donne la requête complète.
+    if (typeof x.p === "string" && /(search_model_queries|\/queries)(\/\d+)?$/.test(x.p)) {
+      if (Array.isArray(x.v)) x.v.forEach(function (q) { if (typeof q === "string") ajouteRequete(res, q); });
+      else if (typeof x.v === "string" && /\/queries\/\d+$/.test(x.p) && x.o !== "append") ajouteRequete(res, x.v);
+    }
   }
   function decodeChatGPT(texte, res) {
     res.plateforme = res.plateforme || "ChatGPT";
