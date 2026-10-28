@@ -107,6 +107,9 @@ section > p { margin: 0 0 12px; }
 .prompt summary { cursor: pointer; color: var(--navy); font-size: 14px; font-weight: 500; }
 .prompt details .cadre { margin-top: 10px; }
 .sans-prompt { margin-bottom: 12px; padding: 14px 16px; border-left: 4px solid var(--navy); border-radius: 0 8px 8px 0; background: var(--carte); font-size: 15px; }
+.cadre.regex pre { word-break: break-all; }
+.consignes { margin: 0 0 8px; padding-left: 22px; }
+.consignes li { margin-bottom: 6px; }
 
 footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--filet); color: var(--doux); font-size: 13px; }
 
@@ -131,10 +134,11 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
   <div class="wrap">
     <p class="surtitre">Formation SEO/GEO · HEC Paris · 18 et 19 novembre 2026</p>
     <h1>Vos outils pour la formation</h1>
-    <p class="chapo">Les extensions Chrome à installer, les outils en ligne et les prompts que nous utiliserons.</p>
+    <p class="chapo">Les extensions Chrome à installer, les outils en ligne, les prompts et les regex que nous utiliserons.</p>
     <nav class="onglets" aria-label="Sections de la page">
       <a href="#outils" data-onglet="outils">Outils</a>
       <a href="#prompts" data-onglet="prompts">Prompts</a>
+      <a href="#regex" data-onglet="regex">Regex</a>
     </nav>
   </div>
 </header>
@@ -423,6 +427,34 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 </main>
 </div>
 
+<div class="panneau" data-panneau="regex">
+<main class="wrap">
+<!-- REGEX DEBUT -->
+<section>
+  <h2>Les regex de la Search Console</h2>
+  <p>Pour isoler, dans la Search Console, les recherches tapées comme une question ou comme une demande faite à une IA&nbsp;: «&nbsp;comment…&nbsp;», «&nbsp;quel…&nbsp;», «&nbsp;écris…&nbsp;», «&nbsp;peux-tu…&nbsp;».</p>
+  <h3>Dans la Search Console</h3>
+  <ol class="consignes">
+    <li>Ouvrez <span class="bouton-ui">Performances</span>, puis <span class="bouton-ui">Résultats de recherche</span>.</li>
+    <li>Cliquez sur <span class="bouton-ui">+ Nouveau</span>, puis sur <span class="bouton-ui">Requête…</span>.</li>
+    <li>Choisissez <span class="bouton-ui">Expression régulière personnalisée</span>, collez la regex, puis <span class="bouton-ui">Appliquer</span>.</li>
+  </ol>
+  <p class="doux">La regex porte sur la requête entière et ne tient pas compte des majuscules.</p>
+<article class="prompt" id="regex-fr">
+  <p class="nom">Regex en français</p>
+  <p class="usage">Les questions (comment, pourquoi, quel, combien…), les demandes faites à une IA (écris, résume, explique, peux-tu…) et les réponses de conversation (merci, oui, d'accord…).</p>
+  <div class="cadre regex"><button class="copier" type="button" data-cible="t-regex-fr">Copier</button><pre id="t-regex-fr">(?i)^((s['’ ]?il te pla[iî]t|stp|svp|[ée]cris|r[ée]diges?|g[ée]n[èe]res?|r[ée]sumes?|r[ée][ée]cris|reformules?|traduis|expliques?|compares?|agis comme|fais comme si|tu es (un|une)|(donnes?|montres?|dis|proposes?|planifies?|fais|trouves?)[- ]?(moi|nous)|listes?|organises?|rends (le|la|les|[çc]a) plus (courte?s?|dr[ôo]les?)|sugg[èe]res?|estimes?|optimises?|trouves?|cherches?|(peux|pourrais)[- ]?tu|tu (peux|pourrais)|est[- ]ce (que|qu['’])|qu['’]est[- ]ce (que|qui|qu['’])|c['’]est quoi|pourquoi|comment|o[ùu]|quand|combien( de| d['’])?|qui|quel(le)?s?|lequel|laquelle|lesquel(le)?s|(y a[- ]t[- ]il|est[- ]ce qu['’]il y a)|peut[- ]on|(peut|doit|faut)[- ]il|(sais|connais)[- ]tu|que (sais|peux|dois|penses)[- ]tu|(qu['’]en|que) penses[- ]tu|[àa] quoi sert)( .*)?|(c['’]est|ce sont|[çc]a|il y a|y['’ ]?a|vous (avez|pouvez|faites|proposez|savez)|tu (as|fais|veux|sais|dois)|t['’ ]?(as|es)|on (peut|doit|fait|trouve|va)|il (faut|reste)) .*\?|(salut|bonjour|bonsoir|coucou|yo|wesh)( ([àa] )?toi)?|(comment )?[çc]a va|comment vas[- ]?tu|tu vas bien|merci( (beaucoup|bien|bcp|infiniment|mille fois|[àa] toi))?|mrc|(super|g[ée]nial|cool|top|parfait|nickel) merci|d[ée]sol[ée]e?|pardon|ta gueule|tg|ferme[- ]la|je te d[ée]teste|t['’ ]?es nul|tu es nul|tu sers [àa] rien|va te faire (foutre|voir)|oui|ouais|ouai|d['’ ]?accord|dac|[çc]a marche|carr[ée]ment|exact|exactement|correct|parfait|tr[èe]s bien|c['’ ]?est bon|les deux|oui les deux|oui je veux bien|(oui )?volontiers|(oui )?vas[- ]?y|oui,? (les )?(prix|tarifs)|(oui|ouais|d['’ ]?accord) (merci|stp|svp|s['’ ]?il te pla[iî]t|volontiers)|(merci|stp|svp) (oui|d['’ ]?accord)|non( merci)?|annuler?|annules|stop|arr[êe]tes?|faux|c['’ ]?est faux|incorrect|n['’ ]?importe o[ùu]|peu importe|tout|tous|toutes|(oui,? )?recommandes?[- ]?(moi|nous)|au revoir|[àa] plus|a\+|[àa] bient[ôo]t|bonne (journ[ée]e|soir[ée]e|nuit)|ciao|tchao|fin|termin[ée]|quitter?|quittes|c['’ ]?est fini|aide|options|que (peux|sais)[- ]?tu faire|qu['’ ]?est[- ]ce que tu (peux|sais) faire|tu sais faire quoi|recommencer?|recommences|red[ée]marrer?|red[ée]marres|plus|encore|suivant|(la )?suite|continuer?|continues|vas[- ]?y continue|montre[- ]?moi|(montre|affiche)([- ](le|la|les))? sur (la|une) carte|(affiche|montre) (la|une) carte|d['’ ]?autres( options| propositions)?|autre chose|r[ée]essa(ie|yer)|plus court|plus long|corrige([- ](le|la))?|c['’ ]?est tout|quoi d['’ ]?autre|(y a[- ]t[- ]il|il y a|y['’ ]?a) d['’ ]?autres|(d['’ ]?autres |plus d['’ ]?)(id[ée]es|recommandations|options|r[ée]sultats|lieux|endroits|h[ôo]tels|restaurants|activit[ée]s|choses [àa] faire)|(montre|donne|ajoute|propose)s?([- ]moi)? (plus|d['’ ]?autres|la suite|encore))$</pre></div>
+</article>
+<article class="prompt" id="regex-en">
+  <p class="nom">Regex en anglais</p>
+  <p class="usage">La même logique pour les recherches en anglais (how, what, why, write, explain, can you…).</p>
+  <div class="cadre regex"><button class="copier" type="button" data-cible="t-regex-en">Copier</button><pre id="t-regex-en">(?i)^((please|pls|plz|write|draft|generate|summarize|rewrite|rephrase|translate|explain|compare|act as|pretend to be|you are (a|an)|(give|show|tell|suggest|propose|plan|find)[- ]?(me|us)|list|organize|make (it|this|them) (shorter|funnier|simpler)|suggest|estimate|optimize|find|search( for)?|(can|could|would)[- ]?you|you (can|could|would)|what (is|are|does|do|can|did|should|would)|what['’]s|what['’]re|why|how|where|when|how (much|many|long|far|often)|who|whom|whose|which|(is|are) there|(can|could|should|do|did) (we|i|you|one)|(do|did) you know|what do you (know|think)|what('s| is) (the point of|the use of))( .*)?|(it['’]s|is it|there (is|are)|are (there|these|those|you|they|we)|you (have|can|do|want|got|know)|we (can|could)|i (can|could)|do you (have|offer|do)|any (chance|idea)) .*\?|(hi|hello|hey|yo|howdy|good (morning|afternoon|evening))|((how )?are you|how('s| is) it going|how are you doing|you good|you okay)|thank(s| you)( (very much|a lot|so much|tons|a bunch))?|thx|ty|(great|awesome|cool|top|perfect|nice|ok) thanks|sorry|pardon|excuse me|my bad|shut up|stfu|shut your mouth|i hate you|you suck|you['’]re useless|you are useless|fuck (you|off)|go to hell|yes|yeah|yep|yup|ok|okay|sure|agreed|sounds good|deal|totally|exactly|correct|perfect|very well|that['’]s (good|fine|right)|both|yes both|yes please|(yes )?gladly|(yes )?go ahead|go for it|go|yes,? (the )?(prices?|rates?)|(yes|yeah|ok|okay|sure) (thanks|please|thank you|gladly)|(thanks|thank you|please) (yes|ok|sure)|(no|nah|nope)( thanks| thank you)?|cancel|stop|halt|false|that['’]s (wrong|false)|incorrect|anywhere|doesn['’]t matter|whatever|all|all of (them|it)|(yes,? )?(recommend|suggest)[- ]?(me|us)?|goodbye|bye( bye)?|see you( later)?|cya|take care|have a good (day|evening|night)|good night|done|finished|quit|exit|that['’]s (it|all)|help|options|what can you do|what do you do|restart|start over|reset|reboot|more|again|next|(the )?next one|continue|keep going|go ahead and continue|show[- ]?me|(show|display)([- ](it|them))? on (the|a) map|(display|show) (the|a) map|other( options| choices| proposals)?|something else|try again|retry|shorter|longer|fix([- ](it|this))?|correct([- ](it|this))?|what else|(is there|are there) (any )?others?|(other|more )(ideas|recommendations|options|results|places|spots|hotels|restaurants|activities|things to do)|(show|give|add|suggest)s?([- ]me)? (more|others?|the rest|again))$</pre></div>
+</article>
+</section>
+<!-- REGEX FIN -->
+</main>
+</div>
+
 <footer>
   <div class="wrap">
     Page préparée par Empirik pour la formation SEO/GEO de HEC Paris. Liste des extensions validée par la DSI de HEC Paris en juillet 2026.
@@ -460,23 +492,25 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 })();
 
 (function () {
-  // Onglets : #prompts (ou une ancre à l'intérieur) affiche les prompts, tout le reste affiche les outils
+  // Onglets : #prompts ou #regex (ou une ancre à l'intérieur) affiche ce panneau, tout le reste affiche les outils
+  var ONGLETS = ["outils", "prompts", "regex"];
   var panneaux = Array.prototype.slice.call(document.querySelectorAll("[data-panneau]"));
   var liens = Array.prototype.slice.call(document.querySelectorAll("[data-onglet]"));
   function afficher() {
-    // #outils et #prompts ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
+    // #outils, #prompts et #regex ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
     var ancre = location.hash.slice(1);
     var cible = ancre ? document.getElementById(ancre) : null;
     var panneau = cible ? cible.closest("[data-panneau]") : null;
-    var nom = (ancre === "outils" || ancre === "prompts") ? ancre : (panneau ? panneau.getAttribute("data-panneau") : "outils");
+    var onglet = ONGLETS.indexOf(ancre) >= 0;
+    var nom = onglet ? ancre : (panneau ? panneau.getAttribute("data-panneau") : "outils");
     panneaux.forEach(function (p) { p.hidden = p.getAttribute("data-panneau") !== nom; });
     liens.forEach(function (a) {
       if (a.getAttribute("data-onglet") === nom) { a.setAttribute("aria-current", "page"); } else { a.removeAttribute("aria-current"); }
     });
-    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts" };
+    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts", regex: "Formation SEO/GEO · Vos regex" };
     document.title = titre[nom];
     // ancre plus précise (#prompt-plan) : le navigateur a défilé avant le masquage de l'autre panneau, on refait le défilement
-    if (cible && !(ancre === "outils" || ancre === "prompts")) { setTimeout(function () { cible.scrollIntoView(); }, 0); }
+    if (cible && !onglet) { setTimeout(function () { cible.scrollIntoView(); }, 0); }
   }
   window.addEventListener("hashchange", afficher);
   afficher();
