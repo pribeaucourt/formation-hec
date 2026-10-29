@@ -85,9 +85,18 @@ section > p { margin: 0 0 12px; }
 .ext.faite { background: var(--carte); border-color: #C9D6E2; }
 .ext.faite .nom::after { content: "Installée"; margin-left: 8px; padding: 1px 8px; border-radius: 4px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 500; vertical-align: 2px; }
 
+/* Tutoriel du profil Chrome */
+.tuto { list-style: none; counter-reset: etape; display: grid; gap: 12px; margin: 0; padding: 0; }
+.tuto li { counter-increment: etape; position: relative; padding: 16px 16px 16px 60px; border: 1px solid var(--filet); border-radius: 10px; }
+.tuto li::before { content: counter(etape); position: absolute; left: 16px; top: 15px; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 15px; font-weight: 600; }
+.tuto p { margin: 0 0 10px; }
+.capture { display: block; width: auto; max-width: 100%; height: auto; max-height: 300px; border: 1px solid var(--filet); border-radius: 8px; }
+.adresse { font-family: "Roboto Mono", ui-monospace, monospace; font-size: 15px; font-weight: 500; color: var(--navy); white-space: nowrap; }
+@media (max-width: 600px) { .tuto li { padding: 54px 14px 14px; } }
+
 /* Onglets */
 .onglets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-.onglets a { white-space: nowrap; padding: 7px 18px; border: 1px solid #3B6385; border-radius: 999px; color: #fff; font-size: 15px; font-weight: 500; text-decoration: none; }
+.onglets a { white-space: nowrap; padding: 7px 14px; border: 1px solid #3B6385; border-radius: 999px; color: #fff; font-size: 15px; font-weight: 500; text-decoration: none; }
 .onglets a:hover, .onglets a:focus-visible { border-color: #fff; }
 .onglets a[aria-current="page"] { background: #fff; border-color: #fff; color: var(--navy); }
 
@@ -162,15 +171,50 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
   <div class="wrap">
     <p class="surtitre">Formation SEO/GEO · HEC Paris · 18 et 19 novembre 2026</p>
     <h1>Vos outils pour la formation</h1>
-    <p class="chapo">Les extensions Chrome à installer, les outils en ligne, les prompts et les regex que nous utiliserons.</p>
+    <p class="chapo">Le profil Chrome à créer, les extensions à installer, les outils en ligne, les prompts et les regex que nous utiliserons.</p>
     <nav class="onglets" aria-label="Sections de la page">
+      <a href="#profil" data-onglet="profil">Profil Chrome</a>
       <a href="#outils" data-onglet="outils">Outils</a>
-      <a href="#prompts" data-onglet="prompts">Prompts</a>
+      <a href="#prompts" data-onglet="prompts">Prompts SEO</a>
       <a href="#geo" data-onglet="geo">Créer des prompts</a>
       <a href="#analyse" data-onglet="analyse">Analyser des prompts</a>
     </nav>
   </div>
 </header>
+
+<div class="panneau" data-panneau="profil">
+<main class="wrap">
+  <section>
+    <h2>Créer le profil Chrome «&nbsp;Formation SEO&nbsp;»</h2>
+    <p>Une extension peut lire tout ce qui s'affiche dans la fenêtre où elle est installée. La DSI de HEC demande donc un profil Chrome réservé à la formation, que l'on supprime à la fin. Dans ce profil, ne connectez aucun compte, ni Google, ni HEC.</p>
+    <ol class="tuto">
+      <li>
+        <p>Cliquez sur le bouton de votre profil, en haut à droite de Chrome (votre photo ou votre nom), puis sur <span class="bouton-ui">Ajouter un profil Chrome</span>.</p>
+        <img class="capture" src="img/profil-chrome.png" alt="Menu du profil Chrome, avec « Ajouter un profil Chrome » encadré" width="406" height="556" loading="lazy">
+      </li>
+      <li>
+        <p>Cliquez sur <span class="bouton-ui">Rester déconnecté</span>.</p>
+        <img class="capture" src="img/etape2-rester-deconnecte.png" alt="Écran « Configurez votre nouveau profil Chrome », avec le bouton « Rester déconnecté » encadré" width="900" height="450" loading="lazy">
+      </li>
+      <li>
+        <p>Choisissez Google, puis cliquez sur <span class="bouton-ui">Définir par défaut</span>.</p>
+        <img class="capture" src="img/etape3-moteur.png" alt="Choix du moteur de recherche, avec Google et « Définir par défaut » encadrés" width="982" height="530" loading="lazy">
+      </li>
+      <li>
+        <p>Nommez le profil «&nbsp;Formation SEO&nbsp;», puis cliquez sur <span class="bouton-ui">OK</span>. La couleur est libre&nbsp;: elle aide à reconnaître la fenêtre.</p>
+        <img class="capture" src="img/etape4-nom-couleur.png" alt="Écran « Bienvenue ! » avec le nom « Formation SEO » saisi et le bouton OK encadré" width="520" height="570" loading="lazy">
+      </li>
+      <li>
+        <p>Dans la nouvelle fenêtre, tapez l'adresse de cette page&nbsp;: <span class="adresse">pribeaucourt.github.io/formation-hec</span></p>
+        <p class="doux">N'ouvrez pas le lien reçu par email&nbsp;: il s'ouvrirait dans votre profil habituel.</p>
+        <img class="capture" src="img/etape5-adresse.png" alt="Barre d'adresse de la fenêtre Formation SEO, avec l'adresse de la page des outils" width="1400" height="338" loading="lazy">
+        <p style="margin: 12px 0 0;">Ouvrez ensuite l'onglet <a href="#outils">Outils</a> pour installer les extensions.</p>
+      </li>
+    </ol>
+    <p class="doux" style="margin-top: 14px;">Pour le rouvrir le lendemain&nbsp;: bouton du profil en haut à droite, puis «&nbsp;Formation SEO&nbsp;».</p>
+  </section>
+</main>
+</div>
 
 <div class="panneau" data-panneau="outils">
 
@@ -184,13 +228,15 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
 <main class="wrap">
 
   <div class="alerte">
-    <p><b>Ouvrez cette page dans la fenêtre «&nbsp;Formation SEO&nbsp;».</b></p>
-    <p>Une extension s'installe dans le profil de la fenêtre où vous cliquez.</p>
+    <p><b>Installez les extensions dans la fenêtre «&nbsp;Formation SEO&nbsp;».</b></p>
+    <p>Une extension s'installe dans le profil de la fenêtre où vous cliquez. Pas encore de profil&nbsp;? Commencez par l'onglet <a href="#profil">Profil Chrome</a>.</p>
   </div>
 
   <section id="extensions">
     <h2><span class="num">1</span>Les extensions Chrome</h2>
     <p>Pour chaque extension&nbsp;: <b>Ouvrir la fiche</b>, puis <span class="bouton-ui">Ajouter à Chrome</span> et <span class="bouton-ui">Ajouter l'extension</span>. Cochez ensuite la case ici.</p>
+    <p>Pour l'avoir sous la main, épinglez-la&nbsp;: la pièce de puzzle en haut à droite, puis la punaise.</p>
+    <img class="capture" src="img/epingler.png" alt="Menu Extensions de Chrome, avec la pièce de puzzle et la punaise encadrées" width="675" height="354" loading="lazy" style="max-height: 200px; margin-bottom: 4px;">
 
     <h3>Pour l'atelier 1, à installer en premier</h3>
     <div class="liste">
@@ -220,7 +266,7 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
       <div class="ext" data-id="nohnfalgehdinkbmfcjgloifjgbeebfb">
         <input type="checkbox" id="e4">
         <label class="nom" for="e4"><img class="logo" src="img/logos/serp-exporter.png" alt="" width="28" height="28">SERP Exporter<span class="editeur">Empirik</span></label>
-        <p class="usage">Enregistre les 10 premiers résultats d'une recherche Google, avec une capture du haut de chaque page. Son onglet «&nbsp;Comparer&nbsp;» fournit aussi un prompt prêt à l'emploi (voir l'onglet <a href="#prompts">Prompts</a>).</p>
+        <p class="usage">Enregistre les 10 premiers résultats d'une recherche Google, avec une capture du haut de chaque page. Son onglet «&nbsp;Comparer&nbsp;» fournit aussi un prompt prêt à l'emploi (voir l'onglet <a href="#prompts">Prompts SEO</a>).</p>
         <a class="ouvrir" href="https://chromewebstore.google.com/detail/nohnfalgehdinkbmfcjgloifjgbeebfb" target="_blank" rel="noopener">Ouvrir la fiche<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h7v7M13 3L5 11"/></svg></a>
       </div>
       <div class="ext" data-id="cfonkadoaednddfgjmppmlmmnfopdngk">
@@ -773,12 +819,12 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
 })();
 
 (function () {
-  // Onglets : #prompts ou #geo (ou une ancre à l'intérieur, dont #regex) affiche ce panneau, tout le reste affiche les outils
-  var ONGLETS = ["outils", "prompts", "geo", "analyse"];
+  // Onglets : #profil, #prompts, #geo ou #analyse (ou une ancre à l'intérieur, dont #regex) affiche ce panneau, tout le reste affiche les outils
+  var ONGLETS = ["profil", "outils", "prompts", "geo", "analyse"];
   var panneaux = Array.prototype.slice.call(document.querySelectorAll("[data-panneau]"));
   var liens = Array.prototype.slice.call(document.querySelectorAll("[data-onglet]"));
   function afficher() {
-    // #outils, #prompts, #geo et #analyse ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
+    // #profil, #outils, #prompts, #geo et #analyse ne visent aucun élément : le navigateur ne fait pas défiler la page, l'en-tête reste visible
     var ancre = location.hash.slice(1);
     var cible = ancre ? document.getElementById(ancre) : null;
     var panneau = cible ? cible.closest("[data-panneau]") : null;
@@ -788,8 +834,10 @@ Le résultat doit être un tableau avec la source et ta conclusion et l’évent
     liens.forEach(function (a) {
       if (a.getAttribute("data-onglet") === nom) { a.setAttribute("aria-current", "page"); } else { a.removeAttribute("aria-current"); }
     });
-    var titre = { outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Vos prompts", geo: "Formation SEO/GEO · Créer des prompts", analyse: "Formation SEO/GEO · Analyser des prompts" };
+    var titre = { profil: "Formation SEO/GEO · Profil Chrome", outils: "Formation SEO/GEO · Vos outils", prompts: "Formation SEO/GEO · Prompts SEO", geo: "Formation SEO/GEO · Créer des prompts", analyse: "Formation SEO/GEO · Analyser des prompts" };
     document.title = titre[nom];
+    // changement d'onglet depuis un lien du contenu (encadré, étape 5, fiche SERP Exporter) : on repart du haut de la page
+    if (onglet) { window.scrollTo(0, 0); }
     // ancre plus précise (#prompt-plan) : le navigateur a défilé avant le masquage de l'autre panneau, on refait le défilement
     if (cible && !onglet) { setTimeout(function () { cible.scrollIntoView(); }, 0); }
   }
