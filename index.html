@@ -35,6 +35,11 @@ a { color: var(--navy); }
 
 /* En-tête */
 header { background: var(--navy); color: #fff; padding: 40px 0 34px; }
+.haut { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin: -6px 0 10px; }
+.haut .surtitre { margin: 0; }
+.telecharger { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 5px 12px; border: 1px solid var(--orange); border-radius: 999px; background: var(--orange); color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; }
+.telecharger:hover, .telecharger:focus-visible { border-color: #fff; background: #fff; color: var(--navy); }
+.telecharger svg { width: 14px; height: 14px; flex: none; }
 .surtitre { margin: 0 0 10px; color: var(--jaune); font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.2; font-weight: 600; }
 header p.chapo { margin: 0; color: #C9D6E2; font-size: 17px; }
@@ -169,7 +174,10 @@ footer { margin-top: 36px; padding: 22px 0 40px; border-top: 1px solid var(--fil
 
 <header>
   <div class="wrap">
-    <p class="surtitre">Formation SEO/GEO · HEC Paris · 18 et 19 novembre 2026</p>
+    <div class="haut">
+      <p class="surtitre">Formation SEO/GEO · HEC Paris · 18 et 19 novembre 2026</p>
+      <a class="telecharger" href="https://github.com/pribeaucourt/formation-hec/archive/refs/heads/main.zip" title="Un fichier ZIP : décompressez-le, puis ouvrez index.html dans Chrome. La page fonctionne aussi hors ligne."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Télécharger la page</a>
+    </div>
     <h1>Vos outils pour la formation</h1>
     <p class="chapo">Le profil Chrome à créer, les extensions à installer, les outils en ligne, les prompts et les regex que nous utiliserons.</p>
     <nav class="onglets" aria-label="Sections de la page">
